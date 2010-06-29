@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!ENTITY rfc3986 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml">
+<!ENTITY html401 SYSTEM "http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml">
+<!ENTITY fiql SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.nottingham-atompub-fiql.xml">
+]>
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+<?rfc strict="no"?>
+<?rfc rfcedstyle="yes"?>
+<rfc category="info" docName="draft-zyp-rql-00" year="2010" ipr="trust200902">
+  <front>
+    
+
+    <title abbrev="Resource Query Language">Resource Query Language</title>
+
+
+    <author fullname="Kris Zyp" initials="K" role="editor"
+            surname="Zyp">
+      <organization>SitePen (USA)</organization>
+
+      <address>
+        <postal>
+          <street>530 Lytton Avenue</street>
+
+          <city>Palo Alto, CA 94301</city>
+
+          <country>USA</country>
+        </postal>
+
+        <phone>+1 650 968 8787</phone>
+
+        <email>kris@sitepen.com</email>
+      </address>
+    </author>
+
+    <date year="2010" />
+
+    <workgroup>Internet Engineering Task Force</workgroup>
+
+    <keyword>resource</keyword>
+
+    <keyword>query</keyword>
+
+    <!--[TODO] add additional keywords here for IETF website search engine -->
+
+    <abstract>
+      <t>Resource Query Languages (RQL) defines a syntactically simple query language 
+      for querying and retrieving resources. RQL is designed to be URI friendly, 
+      particularly as a query component of a URI, and highly extensible. RQL is a superset
+      of HTML's URL encoding of form values, and a superset of Feed Item Query Language (FIQL).
+      RQL basically consists of a set of nestable named operators which each have a set of 
+      arguments and operate on a collection of resources. An example of an RQL for finding
+      resources with a category of "toy" and sorted by price in ascending order:
+      <figure>
+        <artwork>
+        <![CDATA[	
+category=toy&sort(+price)
+]]></artwork></figure>
+      </t>
+
+    </abstract>
+
+  </front>
+
+  <middle>
+    <section title="Introduction">
+      <t>Resource Query Languages (RQL) defines a syntactically simple query language 
+      for querying and retrieving resources. RQL is designed to be URI friendly, 
+      particularly as a query component of a URI, and highly extensible. RQL is a superset
+      of HTML's URL encoding of form values, and a superset of Feed Item Query Language (FIQL).
+</t>
+    </section>
+
+
+    <section title="Conventions">
+      <t><!-- The text in this section has been copied from the official boilerplate, 
+                  and should not be modified.-->The key words "MUST", "MUST
+      NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT",
+      "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+      interpreted as described in RFC 2119.</t>
+    </section>
+
+    <!-- ********************************************* -->
+
+    <section title="Overview">
+      <t>RQL consists of a set of nestable named operators which each have a set of 
+      arguments. RQL is designed to be applied to a collection of resources. Each top-level 
+      operator defines a constraint or modification to the result of the query from the base 
+      collection of resources. Nested operators provide constraint information for the operators within which they are embedded. 
+      </t>
+    </section>
+    <section title="Operators">
+    <t>
+      An operator consists of an operator name followed by a list of comma-delimited arguments within paranthesis:
+      <figure>
+        <artwork>
+        <![CDATA[	
+name(args,...)
+]]></artwork></figure>
+      Each argument may be a value (a string of unreserved or URL-encoded characters), an array, or another operator. The name of the operator indicates the type of action the operator will perform on the collection, using the given arguments. This document defines the semantics of a set of operators, but the query language can be extended with additional operators.</t>
+<t>      
+      A simple RQL query with a single operator that indicates a search for any 
+      resources with a property of "foo" that has value of 3 could be written:
+      <figure>
+        <artwork>
+        <![CDATA[	
+eq(foo,3)
+]]></artwork></figure>
+
+      </t>
+    </section>
+    <section title="Arrays">
+      
+      <t>
+      One of the allowable arguments for operators is an array. An array is paranthesis-enclosed comma-delimited set of items. Each item in the array can be a value or an operator. A query that finds all the resources where the category can be "toy" or "food" could be written with an array argument:
+      <figure>
+        <artwork>
+        <![CDATA[	
+in(category,(toy,food))
+]]></artwork></figure>
+      
+      </t>
+    </section>
+    <section title="Nested Operators">
+      <t>
+      Operators may be nested. For example, a set of operators can be used as the arguments for the "or" operator. Another query that finds all the resources where the category can be "toy" or "food" could be written with nested "eq" operators within an "or" operator:
+      <figure>
+        <artwork>
+        <![CDATA[	
+or(eq(category,toy),eq(category,food))
+]]></artwork></figure>
+      </t>
+    </section>
+    <section title="Defined Operators">
+      
+      <t>
+      RQL defines the following semantics for these operators:
+     <section title="sort">
+      <t>sort(&lt;+|->&lt;property) - Sorts the returned query result by the given property. The order of sort is specified by the prefix (+ for ascending, - for descending) to property.
+      To sort by foo in ascending order:
+      <figure>
+        <artwork>
+        <![CDATA[	
+sort(+foo)
+]]></artwork></figure>
+      One can also do multiple property sorts. To sort by price in ascending order and rating in descending order:
+      <figure>
+        <artwork>
+        <![CDATA[	
+sort(+price,-rating)
+]]></artwork></figure>
+      </t>
+     </section>
+     <section title="select">
+      <t>select(&lt;property>) - Returns a query result where each item is value of the property specified by the argument</t>
+      <t>select(&lt;property>,&lt;property>,...) - Trims each object down to the set of properties defined in the arguments</t>
+     </section>
+     <section title="aggregate">
+      <t>aggregate(&lt;property|operator>,...) - The aggregate function can be used for aggregation, it aggregates the result set, grouping by objects that are distinct for the provided properties, and then reduces the remaining other property values using the provided operator. To calculate the sum of sales for each department:
+      <figure>
+        <artwork>
+        <![CDATA[	
+aggregate(departmentId,sum(sales))
+]]></artwork></figure>
+</t>
+     </section>
+     <section title="distinct">
+      <t>distinct() - Returns a result set with duplicates removed</t>
+     </section>
+     <section title="in">
+      <t>in(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is in the provided array</t>
+     </section>
+     <section title="contains">
+      <t>contains(&lt;property>,&lt;value | array-of-values>) - Filters for objects where the specified property's value is an array and the array contains the provided value or contains a value in the provided array</t>
+     </section>
+     <section title="range">
+      <t>range(start,end) - Returns the given range of objects from the result set</t>
+     </section>
+     <section title="and">
+      <t>and(&lt;query>,&lt;query>,...) - Returns a query result set applying all the given operators to constrain the query</t>
+     </section>
+     <section title="or">
+      <t>or(&lt;query>,&lt;query>,...) - Returns a union result set of the given operators</t>
+     </section>
+     <section title="eq">
+      <t>eq(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is equal to the provided value</t>
+     </section>
+     <section title="lt">
+      <t>lt(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is less than the provided value</t>
+     </section>
+     <section title="le">
+      <t>le(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is less than or equal to the provided value</t>
+     </section>
+     <section title="gt">
+      <t>gt(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is greater than the provided value</t>
+     </section>
+     <section title="ge">
+      <t>ge(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is greater than or equal to the provided value</t>
+     </section>
+     <section title="ne">
+      <t>ne(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is not equal to the provided value</t>
+     </section>
+     <section title="sum">
+      <t>sum(&lt;property?>) - Finds the sum of every value in the array or if the property argument is provided, returns the sum of the value of property for every object in the array</t>
+     </section>
+     <section title="mean">
+      <t>mean(&lt;property?>) - Finds the mean of every value in the array or if the property argument is provided, returns the mean of the value of property for every object in the array</t>
+     </section>
+     <section title="max">
+      <t>max(&lt;property?>) - Finds the maximum of every value in the array or if the property argument is provided, returns the maximum of the value of property for every object in the array</t>
+     </section>
+     <section title="min">
+      <t>min(&lt;property?>) - Finds the minimum of every value in the array or if the property argument is provided, returns the minimum of the value of property for every object in the array</t>
+     </section>
+     <section title="recurse">
+      <t>recurse(&lt;property?>) - Recursively searches, looking in children of the object as objects in arrays in the given property value</t>
+     </section>
+      </t>
+    </section>
+    <section title="Comparison Syntax">
+      
+      <t>
+    RQL provides a semantically equivelant syntactic alternate to operator syntax with comparison syntax. A comparison operator may
+    be written in the form:
+      <figure>
+        <artwork>
+        <![CDATA[	
+name=value
+]]></artwork></figure>
+As shorthand for:
+      <figure>
+        <artwork>
+        <![CDATA[	
+eq(name,value)
+]]></artwork></figure>
+RQL also supports provides sugar for the "and" operator with ampersand delimited operators. The following form:
+      <figure>
+        <artwork>
+        <![CDATA[	
+operator&operator
+]]></artwork></figure>
+As shorthand for:
+      <figure>
+        <artwork>
+        <![CDATA[	
+and(operator,operator)
+]]></artwork></figure>
+With these transformations, one can write queries of the form:
+      <figure>
+        <artwork>
+        <![CDATA[	
+foo=3&bar=text
+]]></artwork></figure>
+This makes the HTML's form url encoding of name value pairs a proper query within RQL.</t>
+<t>
+Ampersand delimited operators may be grouped by placing them within paranthesis. Top level queries themselves are considered to be implicitly a part of an "and" operator group, and therefore the top level ampersand delimited operators do not need to be enclosed with paranthesis, but "and" groups used within other operators do need to be enclosed in paranthesis.</t>
+<t>
+Pipe delimited operators may also be placed within paranthesis-enclosed groups as shorthand for the "or" operator. One can write a query:
+      <figure>
+        <artwork>
+        <![CDATA[	
+foo=3&(bar=text|bar=string)
+]]></artwork></figure>
+Also, Feed Item Query Language is a subset of RQL valid. RQL supports named comparisons as shorthand for operators as well. The following form is a named comparison:
+      <figure>
+        <artwork>
+        <![CDATA[	
+name=comparator=value
+]]></artwork></figure>
+Which is shorthand for:
+      <figure>
+        <artwork>
+        <![CDATA[	
+comparator(name,value)
+]]></artwork></figure>
+For example, to find resources with a "price" less than 10:
+      <figure>
+        <artwork>
+        <![CDATA[	
+price=lt=10
+]]></artwork></figure>
+</t>
+</section>
+<section title="Typed Values">
+<t>
+Basic values in RQL are simply a string of characters and it is up to the recipient of a query to determine how these characters should be interpreted and if they should be coerced to alternate data types understood by the language or database processing the query. However, RQL supports typed values to provide hints to the recipient of the intended data type of the value. The syntax of a typed value is:
+      <figure>
+        <artwork>
+        <![CDATA[	
+type:value
+]]></artwork></figure>
+RQL suggests the following types to be supported:
+<list>
+<t>string - Indicates the value string should not be coerced, it should remain a string.</t>
+<t>number - Indicates the value string should be coerced to a number.</t>
+<t>boolean - Indicates the value string should be coerced to a boolean. A value of "true" should indicate true and a value of "false" should indicate false.</t>
+<t>epoch - Indicates the value string should be treated as the milliseconds since the epoch and coerced to a date.</t>
+</list>
+For example, to query for resources where foo explicitly equals the number 4:
+      <figure>
+        <artwork>
+        <![CDATA[	
+foo=number:4
+]]></artwork></figure>
+
+</t>
+</section>
+<section title="ABNF for RQL">
+<t>
+The following is the collected ABNF for RQL:
+      <figure>
+        <artwork>
+        <![CDATA[
+query = and
+
+and = operator *( "&" operator )
+operator = comparison / call-operator / group
+call-operator = name "(" [ argument *( "," argument ) ] ")"
+argument = call-operator / value
+value = *nchar / typed-value / array
+typed-value = *nchar ":" *nchar
+array = "(" [ value *( "," value ) ] ")"
+name = *nchar
+
+comparison = name ( "=" [ name "=" ] ) value
+group = "(" ( and / or ) ")"
+or = operator *( "|" operator )
+
+nchar = unreserved / pct-encoded / "*" / "+"
+pct-encoded   = "%" HEXDIG HEXDIG
+unreserved    = ALPHA / DIGIT / "-" / "." / "_" / "~"
+
+]]></artwork></figure>
+
+</t>
+</section>
+<section title="IANA Considerations">
+<t>
+   The proposed MIME media type for Resource Query Language is application/rql
+</t>
+<t>
+   Type name: application
+</t>
+<t>
+   Subtype name: rql
+</t>
+<t>
+   Required parameters: none
+   </t>
+<t>
+   Optional parameters: none
+   </t>
+
+
+</section>
+  </middle>
+
+  <back>
+    <!-- References Section -->
+
+
+    <references title="Normative References">
+      &rfc2119;
+    </references>
+
+    <references title="Informative References">
+      &html401;
+      &fiql;
+    </references>
+
+    <!--
+<section anchor="appendix" title="Appendix A">
+	<t>You can add appendices just as regular sections, the only
+difference is that they go under "back" element, and get letters 
+instead of numbers</t>
+</section>
+-->
+
+    <section title="Change Log ">
+          <t>-00</t>
+          <t>
+            <list style="symbols">
+              <t>Initial draft</t>
+            </list>
+          </t>
+
+    </section>
+
+    <section title="Open Issues">
+
+    </section>
+
+    <!--
+$Log: draft-zyp-rql.xml,v $
+Revision 0.1  2009/09/25 02:46:57  H73653
+*** empty log message ***
+	place for source control log here
+  -->
+  </back>
+</rfc>
