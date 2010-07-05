@@ -1,0 +1,24 @@
+{
+	"name": "rql",
+	"author": "Kris Zyp",
+	"contributors": [],
+	"keywords": [
+		"resource",
+		"query",
+		"uri"
+	],
+	"mappings": {
+		"patr": "jar:http://github.com/kriszyp/patr/zipball/master!/lib/",
+		"promised-io": "jar:http://github.com/kriszyp/promised-io/zipball/master!/lib/"
+	},
+	"githubName": "rql",
+	"type": "zip",
+	"location": "http://github.com/kriszyp/rql/zipball/master",
+	"overlay": {
+		"npm": {
+			"dependencies": {
+				"patr": "*"
+			}
+		}
+	}
+}
