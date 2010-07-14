@@ -1,7 +1,7 @@
 {
 	"name": "rql",
 	"author": "Kris Zyp",
-	"contributors": [],
+	"contributors": ["Vladimir Dronnikov <dronnikov@gmail.com>"],
 	"keywords": [
 		"resource",
 		"query",
