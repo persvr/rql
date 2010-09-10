@@ -144,8 +144,8 @@
 <table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
 <tr><td class="header">Internet Engineering Task Force</td><td class="header">K. Zyp, Ed.</td></tr>
 <tr><td class="header">Internet-Draft</td><td class="header">SitePen (USA)</td></tr>
-<tr><td class="header">Intended status: Informational</td><td class="header">June 29, 2010</td></tr>
-<tr><td class="header">Expires: December 31, 2010</td><td class="header">&nbsp;</td></tr>
+<tr><td class="header">Intended status: Informational</td><td class="header">June 30, 2010</td></tr>
+<tr><td class="header">Expires: January 1, 2011</td><td class="header">&nbsp;</td></tr>
 </table></td></tr></table>
 <h1><br />Resource Query Language<br />draft-zyp-rql-00</h1>
 
@@ -181,7 +181,7 @@ and may be updated, replaced, or obsoleted by other documents at any time.
 It is inappropriate to use Internet-Drafts as reference material or to cite
 them other than as &ldquo;work in progress.&rdquo;</p>
 <p>
-This Internet-Draft will expire on December 31, 2010.</p>
+This Internet-Draft will expire on January 1, 2011.</p>
 
 <h3>Copyright Notice</h3>
 <p>
@@ -209,68 +209,72 @@ Overview<br />
 <a href="#anchor4">4.</a>&nbsp;
 Operators<br />
 <a href="#anchor5">5.</a>&nbsp;
-Arrays<br />
+Values<br />
 <a href="#anchor6">6.</a>&nbsp;
-Nested Operators<br />
+Arrays<br />
 <a href="#anchor7">7.</a>&nbsp;
+Nested Operators<br />
+<a href="#anchor8">8.</a>&nbsp;
 Defined Operators<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor8">7.1.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor9">8.1.</a>&nbsp;
 sort<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor9">7.2.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor10">8.2.</a>&nbsp;
 select<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor10">7.3.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor11">8.3.</a>&nbsp;
 aggregate<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor11">7.4.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor12">8.4.</a>&nbsp;
 distinct<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor12">7.5.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor13">8.5.</a>&nbsp;
 in<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor13">7.6.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor14">8.6.</a>&nbsp;
 contains<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor14">7.7.</a>&nbsp;
-range<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor15">7.8.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor15">8.7.</a>&nbsp;
+limit<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor16">8.8.</a>&nbsp;
 and<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor16">7.9.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor17">8.9.</a>&nbsp;
 or<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor17">7.10.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor18">8.10.</a>&nbsp;
 eq<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor18">7.11.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor19">8.11.</a>&nbsp;
 lt<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor19">7.12.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor20">8.12.</a>&nbsp;
 le<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor20">7.13.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor21">8.13.</a>&nbsp;
 gt<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor21">7.14.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor22">8.14.</a>&nbsp;
 ge<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor22">7.15.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor23">8.15.</a>&nbsp;
 ne<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor23">7.16.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor24">8.16.</a>&nbsp;
 sum<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor24">7.17.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor25">8.17.</a>&nbsp;
 mean<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor25">7.18.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor26">8.18.</a>&nbsp;
 max<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor26">7.19.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor27">8.19.</a>&nbsp;
 min<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor27">7.20.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor28">8.20.</a>&nbsp;
 recurse<br />
-<a href="#anchor28">8.</a>&nbsp;
-Comparison Syntax<br />
 <a href="#anchor29">9.</a>&nbsp;
-Typed Values<br />
+Comparison Syntax<br />
 <a href="#anchor30">10.</a>&nbsp;
-ABNF for RQL<br />
+Typed Values<br />
 <a href="#anchor31">11.</a>&nbsp;
+ABNF for RQL<br />
+<a href="#anchor32">12.</a>&nbsp;
+HTTP<br />
+<a href="#anchor33">13.</a>&nbsp;
 IANA Considerations<br />
-<a href="#rfc.references1">12.</a>&nbsp;
+<a href="#rfc.references1">14.</a>&nbsp;
 References<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references1">12.1.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references1">14.1.</a>&nbsp;
 Normative References<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references2">12.2.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references2">14.2.</a>&nbsp;
 Informative References<br />
-<a href="#anchor34">Appendix&nbsp;A.</a>&nbsp;
+<a href="#anchor36">Appendix&nbsp;A.</a>&nbsp;
 Change Log <br />
-<a href="#anchor35">Appendix&nbsp;B.</a>&nbsp;
+<a href="#anchor37">Appendix&nbsp;B.</a>&nbsp;
 Open Issues<br />
 </p>
 <br clear="all" />
@@ -331,12 +335,20 @@ name(args,...)
 eq(foo,3)
 </pre></div><p>
 
-
       
 </p>
 <a name="anchor5"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.5"></a><h3>5.&nbsp;
+Values</h3>
+
+<p>
+	Simple values are simply URL-encoded sequences of characters. Unreserved characters do not need to be encoded, other characters should be encoding using standard URL encoding. Simple values can be decoded to determine the intended string of characters. Values can also include arrays or typed values. These are described in the "Typed Values" and "Arrays" section below.
+      
+</p>
+<a name="anchor6"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.6"></a><h3>6.&nbsp;
 Arrays</h3>
 
 <p>
@@ -350,9 +362,9 @@ in(category,(toy,food))
       
       
 </p>
-<a name="anchor6"></a><br /><hr />
+<a name="anchor7"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.6"></a><h3>6.&nbsp;
+<a name="rfc.section.7"></a><h3>7.&nbsp;
 Nested Operators</h3>
 
 <p>
@@ -365,17 +377,17 @@ or(eq(category,toy),eq(category,food))
 
       
 </p>
-<a name="anchor7"></a><br /><hr />
+<a name="anchor8"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7"></a><h3>7.&nbsp;
+<a name="rfc.section.8"></a><h3>8.&nbsp;
 Defined Operators</h3>
 
 <p>
       RQL defines the following semantics for these operators:
      
-<a name="anchor8"></a><br /><hr />
+<a name="anchor9"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.1"></a><h3>7.1.&nbsp;
+<a name="rfc.section.8.1"></a><h3>8.1.&nbsp;
 sort</h3>
 
 <p>sort(&lt;+|->&lt;property) - Sorts the returned query result by the given property. The order of sort is specified by the prefix (+ for ascending, - for descending) to property.
@@ -396,9 +408,9 @@ sort(+price,-rating)
       
 </p>
      
-<a name="anchor9"></a><br /><hr />
+<a name="anchor10"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.2"></a><h3>7.2.&nbsp;
+<a name="rfc.section.8.2"></a><h3>8.2.&nbsp;
 select</h3>
 
 <p>select(&lt;property>) - Returns a query result where each item is value of the property specified by the argument
@@ -406,9 +418,9 @@ select</h3>
 <p>select(&lt;property>,&lt;property>,...) - Trims each object down to the set of properties defined in the arguments
 </p>
      
-<a name="anchor10"></a><br /><hr />
+<a name="anchor11"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.3"></a><h3>7.3.&nbsp;
+<a name="rfc.section.8.3"></a><h3>8.3.&nbsp;
 aggregate</h3>
 
 <p>aggregate(&lt;property|operator>,...) - The aggregate function can be used for aggregation, it aggregates the result set, grouping by objects that are distinct for the provided properties, and then reduces the remaining other property values using the provided operator. To calculate the sum of sales for each department:
@@ -421,146 +433,146 @@ aggregate(departmentId,sum(sales))
 
 </p>
      
-<a name="anchor11"></a><br /><hr />
+<a name="anchor12"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.4"></a><h3>7.4.&nbsp;
+<a name="rfc.section.8.4"></a><h3>8.4.&nbsp;
 distinct</h3>
 
 <p>distinct() - Returns a result set with duplicates removed
 </p>
      
-<a name="anchor12"></a><br /><hr />
+<a name="anchor13"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.5"></a><h3>7.5.&nbsp;
+<a name="rfc.section.8.5"></a><h3>8.5.&nbsp;
 in</h3>
 
 <p>in(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is in the provided array
 </p>
      
-<a name="anchor13"></a><br /><hr />
+<a name="anchor14"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.6"></a><h3>7.6.&nbsp;
+<a name="rfc.section.8.6"></a><h3>8.6.&nbsp;
 contains</h3>
 
 <p>contains(&lt;property>,&lt;value | array-of-values>) - Filters for objects where the specified property's value is an array and the array contains the provided value or contains a value in the provided array
 </p>
      
-<a name="anchor14"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.7"></a><h3>7.7.&nbsp;
-range</h3>
-
-<p>range(start,end) - Returns the given range of objects from the result set
-</p>
-     
 <a name="anchor15"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.8"></a><h3>7.8.&nbsp;
+<a name="rfc.section.8.7"></a><h3>8.7.&nbsp;
+limit</h3>
+
+<p>limit(start,count) - Returns a limited range of records from the result set. The first parameter indicates the starting offset and the second parameter indicates the number of records to return.
+</p>
+     
+<a name="anchor16"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.8.8"></a><h3>8.8.&nbsp;
 and</h3>
 
 <p>and(&lt;query>,&lt;query>,...) - Returns a query result set applying all the given operators to constrain the query
 </p>
      
-<a name="anchor16"></a><br /><hr />
+<a name="anchor17"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.9"></a><h3>7.9.&nbsp;
+<a name="rfc.section.8.9"></a><h3>8.9.&nbsp;
 or</h3>
 
 <p>or(&lt;query>,&lt;query>,...) - Returns a union result set of the given operators
 </p>
      
-<a name="anchor17"></a><br /><hr />
+<a name="anchor18"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.10"></a><h3>7.10.&nbsp;
+<a name="rfc.section.8.10"></a><h3>8.10.&nbsp;
 eq</h3>
 
 <p>eq(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is equal to the provided value
 </p>
      
-<a name="anchor18"></a><br /><hr />
+<a name="anchor19"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.11"></a><h3>7.11.&nbsp;
+<a name="rfc.section.8.11"></a><h3>8.11.&nbsp;
 lt</h3>
 
 <p>lt(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is less than the provided value
 </p>
      
-<a name="anchor19"></a><br /><hr />
+<a name="anchor20"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.12"></a><h3>7.12.&nbsp;
+<a name="rfc.section.8.12"></a><h3>8.12.&nbsp;
 le</h3>
 
 <p>le(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is less than or equal to the provided value
 </p>
      
-<a name="anchor20"></a><br /><hr />
+<a name="anchor21"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.13"></a><h3>7.13.&nbsp;
+<a name="rfc.section.8.13"></a><h3>8.13.&nbsp;
 gt</h3>
 
 <p>gt(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is greater than the provided value
 </p>
      
-<a name="anchor21"></a><br /><hr />
+<a name="anchor22"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.14"></a><h3>7.14.&nbsp;
+<a name="rfc.section.8.14"></a><h3>8.14.&nbsp;
 ge</h3>
 
 <p>ge(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is greater than or equal to the provided value
 </p>
      
-<a name="anchor22"></a><br /><hr />
+<a name="anchor23"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.15"></a><h3>7.15.&nbsp;
+<a name="rfc.section.8.15"></a><h3>8.15.&nbsp;
 ne</h3>
 
 <p>ne(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is not equal to the provided value
 </p>
      
-<a name="anchor23"></a><br /><hr />
+<a name="anchor24"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.16"></a><h3>7.16.&nbsp;
+<a name="rfc.section.8.16"></a><h3>8.16.&nbsp;
 sum</h3>
 
 <p>sum(&lt;property?>) - Finds the sum of every value in the array or if the property argument is provided, returns the sum of the value of property for every object in the array
 </p>
      
-<a name="anchor24"></a><br /><hr />
+<a name="anchor25"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.17"></a><h3>7.17.&nbsp;
+<a name="rfc.section.8.17"></a><h3>8.17.&nbsp;
 mean</h3>
 
 <p>mean(&lt;property?>) - Finds the mean of every value in the array or if the property argument is provided, returns the mean of the value of property for every object in the array
 </p>
      
-<a name="anchor25"></a><br /><hr />
+<a name="anchor26"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.18"></a><h3>7.18.&nbsp;
+<a name="rfc.section.8.18"></a><h3>8.18.&nbsp;
 max</h3>
 
 <p>max(&lt;property?>) - Finds the maximum of every value in the array or if the property argument is provided, returns the maximum of the value of property for every object in the array
 </p>
      
-<a name="anchor26"></a><br /><hr />
+<a name="anchor27"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.19"></a><h3>7.19.&nbsp;
+<a name="rfc.section.8.19"></a><h3>8.19.&nbsp;
 min</h3>
 
 <p>min(&lt;property?>) - Finds the minimum of every value in the array or if the property argument is provided, returns the minimum of the value of property for every object in the array
 </p>
      
-<a name="anchor27"></a><br /><hr />
+<a name="anchor28"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.7.20"></a><h3>7.20.&nbsp;
+<a name="rfc.section.8.20"></a><h3>8.20.&nbsp;
 recurse</h3>
 
 <p>recurse(&lt;property?>) - Recursively searches, looking in children of the object as objects in arrays in the given property value
 </p>
       
 
-<a name="anchor28"></a><br /><hr />
+<a name="anchor29"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.8"></a><h3>8.&nbsp;
+<a name="rfc.section.9"></a><h3>9.&nbsp;
 Comparison Syntax</h3>
 
 <p>
@@ -636,9 +648,9 @@ price=lt=10
 
 
 </p>
-<a name="anchor29"></a><br /><hr />
+<a name="anchor30"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.9"></a><h3>9.&nbsp;
+<a name="rfc.section.10"></a><h3>10.&nbsp;
 Typed Values</h3>
 
 <p>
@@ -671,9 +683,9 @@ foo=number:4
 
 
 </p>
-<a name="anchor30"></a><br /><hr />
+<a name="anchor31"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.10"></a><h3>10.&nbsp;
+<a name="rfc.section.11"></a><h3>11.&nbsp;
 ABNF for RQL</h3>
 
 <p>
@@ -688,7 +700,7 @@ operator = comparison / call-operator / group
 call-operator = name "(" [ argument *( "," argument ) ] ")"
 argument = call-operator / value
 value = *nchar / typed-value / array
-typed-value = *nchar ":" *nchar
+typed-value = 1*nchar ":" *nchar
 array = "(" [ value *( "," value ) ] ")"
 name = *nchar
 
@@ -705,9 +717,23 @@ unreserved    = ALPHA / DIGIT / "-" / "." / "_" / "~"
 
 
 </p>
-<a name="anchor31"></a><br /><hr />
+<a name="anchor32"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.11"></a><h3>11.&nbsp;
+<a name="rfc.section.12"></a><h3>12.&nbsp;
+HTTP</h3>
+
+<p>
+If RQL is used as for to define queries in HTTP URLs, there are several considerations. First, servers that allow publicly initiated requests should enforce proper security measures to protect against excessive resource consumption. Many operators may be understood
+by the server, but not efficiently executable and servers can therefore reject such queries. Rejections may be indicated by a 403 Forbidden status code response, or if authentication may provide the authorization necessary to perform the query, a 401 Unauthorized status code can be sent.
+
+</p>
+<p>
+If the query is not syntactically valid, (does not follow the RQL grammar), the server may return a status code of 400 Bad Request. If the query is syntactically valid, but the operator name is not known, the server may also return a status code of 400 Bad Request.
+
+</p>
+<a name="anchor33"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.13"></a><h3>13.&nbsp;
 IANA Considerations</h3>
 
 <p>
@@ -732,18 +758,22 @@ IANA Considerations</h3>
 </p>
 <a name="rfc.references"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.12"></a><h3>12.&nbsp;
+<a name="rfc.section.14"></a><h3>14.&nbsp;
 References</h3>
 
 <a name="rfc.references1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<h3>12.1.&nbsp;Normative References</h3>
+<h3>14.1.&nbsp;Normative References</h3>
 <table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="RFC2119">[RFC2119]</a></td>
+<td class="author-text"><a href="mailto:sob@harvard.edu">Bradner, S.</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>,&rdquo; BCP&nbsp;14, RFC&nbsp;2119, March&nbsp;1997 (<a href="http://www.rfc-editor.org/rfc/rfc2119.txt">TXT</a>, <a href="http://xml.resource.org/public/rfc/html/rfc2119.html">HTML</a>, <a href="http://xml.resource.org/public/rfc/xml/rfc2119.xml">XML</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC3986">[RFC3986]</a></td>
+<td class="author-text"><a href="mailto:timbl@w3.org">Berners-Lee, T.</a>, <a href="mailto:fielding@gbiv.com">Fielding, R.</a>, and <a href="mailto:LMM@acm.org">L. Masinter</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc3986">Uniform Resource Identifier (URI): Generic Syntax</a>,&rdquo; STD&nbsp;66, RFC&nbsp;3986, January&nbsp;2005 (<a href="http://www.rfc-editor.org/rfc/rfc3986.txt">TXT</a>, <a href="http://xml.resource.org/public/rfc/html/rfc3986.html">HTML</a>, <a href="http://xml.resource.org/public/rfc/xml/rfc3986.xml">XML</a>).</td></tr>
 </table>
 
 <a name="rfc.references2"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<h3>12.2.&nbsp;Informative References</h3>
+<h3>14.2.&nbsp;Informative References</h3>
 <table width="99%" border="0">
 <tr><td class="author-text" valign="top"><a name="W3C.REC-html401-19991224">[W3C.REC-html401-19991224]</a></td>
 <td class="author-text">Hors, A., Raggett, D., and I. Jacobs, &ldquo;<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML 4.01 Specification</a>,&rdquo; World Wide Web Consortium Recommendation&nbsp;REC-html401-19991224, December&nbsp;1999 (<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML</a>).</td></tr>
@@ -751,7 +781,7 @@ References</h3>
 <td class="author-text">Nottingham, M., &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-nottingham-atompub-fiql-00.txt">FIQL: The Feed Item Query Language</a>,&rdquo; draft-nottingham-atompub-fiql-00 (work in progress), December&nbsp;2007 (<a href="http://www.ietf.org/internet-drafts/draft-nottingham-atompub-fiql-00.txt">TXT</a>).</td></tr>
 </table>
 
-<a name="anchor34"></a><br /><hr />
+<a name="anchor36"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.A"></a><h3>Appendix A.&nbsp;
 Change Log </h3>
@@ -766,7 +796,7 @@ Change Log </h3>
 </ul><p>
           
 </p>
-<a name="anchor35"></a><br /><hr />
+<a name="anchor37"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.B"></a><h3>Appendix B.&nbsp;
 Open Issues</h3>
