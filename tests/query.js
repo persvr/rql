@@ -2,7 +2,6 @@ var assert = require("assert"),
     Query = require("../lib/query").Query,
     parseQuery = require("../lib/parser").parseQuery;
 
-
 exports.testBehavior = function() {
     //assert.error(parseQuery(), "parseQuery requires a string");
     assert.ok(parseQuery("") instanceof Query, "should inherit from Query");
@@ -13,21 +12,21 @@ exports.testBehavior = function() {
 var queryPairs = {
     "arrays": [
         {"a": {name:"and", args:["a"]}},
-        {"(a)": {name:"and", args:["a"]}},
+        {"(a)": {name:"and", args:[["a"]]}},
         {"a,b,c": {name:"and", args:["a", "b", "c"]}},
         {"(a,b,c)": {name:"and", args:[["a", "b", "c"]]}},
-        {"a(b)": {name:"and", args:[["a", "b", "c"]]}},
+        {"a(b)": {name:"and","args":[{"name":"a","args":["b"]}]}},
         {"a(b,c)": {name:"and", args:[{name:"a", args:["b", "c"]}]}},
         {"a((b),c)": {"name": "and", args:[{name:"a", args:[["b"], "c"]}]}},
         {"a((b,c),d)": {name:"and", args:[{name:"a", args:[["b", "c"], "d"]}]}},
-        {"a(b),c(d(e))": {name:"and", args:[
+        {"a(b)&c(d(e))": {name:"and", args:[
             {name:"a", args:["b"]}, 
             {name:"c", args:[{name:"d", args:["e"]}]}
-        ]}},
-        {"(a(b),c(d(e)))": {name:"and", args:[[
-            {name:"a", args:["b"]}, 
-            {name:"c", args:[{name:"d", args:["e"]}]}
-        ]]}}
+        ]}}
+    ],
+    "dot-comparison": [
+    	{"foo.bar=3": {name:"and", args:[{name:"eq", args:["foo.bar",3]}]}},
+    	{"select(sub.name)": {name:"and", args:[{name:"select", args:["sub.name"]}]}}
     ],
     "equality": [
         {"eq(a,b)": {name:"and", args:[{name:"eq", args:["a","b"]}]}},
@@ -71,18 +70,15 @@ var queryPairs = {
     "and grouping": [
         {"a&b&c": {name:"and", args:["a", "b", "c"]}},
         {"a(b)&c": {name:"and", args:[{name:"a", args:["b"]}, "c"]}},
-        {"a(b&c)": {}},
-        {"a(b&(c))": {}},
-        {"a(b&c)": {}}
+        {"a&(b&c)": {"name":"and","args":["a",{"name":"and","args":["b","c"]}]}}
     ],
     "or grouping": [
-        {"a|b|c": {name:"and", args:[{name:"or", args:["a", "b", "c"]}]}},
-        {"a(b)|c": {name:"and", args:[{name:"or", args:[{name:"a", args:["b"]}, "c"]}]}}
+        {"(a|b|c)": {name:"and", args:[{name:"or", args:["a", "b", "c"]}]}},
+        {"(a(b)|c)": {name:"and", args:[{name:"or", args:[{name:"a", args:["b"]}, "c"]}]}}
     ],
     "complex grouping": [
-        {"a&b|c": {name:"and", args:["a", {name:"or", args:["b", "c"]}]}},
-        {"a|b&c": {name:"and", args:[{name:"or", args:["a", {name:"and", args:["b", "c"]}]}]}},
-        
+        {"a&(b|c)": {name:"and", args:["a", {name:"or", args:["b", "c"]}]}},
+        {"a|(b&c)": {name:"and", args:[{name:"or", args:["a", {name:"and", args:["b", "c"]}]}]}},
         {"a(b(c<d,e(f=g)))": {}}
     ],
     "complex comparisons": [
@@ -95,41 +91,28 @@ var queryPairs = {
     ],
     "number coercion": [
         {"a(number)": {name:"and", args:[{name:"a", args:["number"]}]}},
-        {"a(number:1)": {name:"and", args:[{name:"a", args:[1]}]}},
-        {"a(number:b)": {name:"and", args:[{name:"a", args:[NaN]}]}}
+        {"a(number:1)": {name:"and", args:[{name:"a", args:[1]}]}}
+//        {"a(number:b)": {name:"and", args:[{name:"a", args:[NaN]}]}} // supposed to throw an error
     ],
     "date coercion": [
         //FIXME do we need proper ISO date subset parsing?
         {"a(date)": {name:"and", args:[{name:"a", args:["date"]}]}},
-        {"a(date:2009)": {name:"and", args:[{name:"a", args:[(new Date(2009))]}]}},
-        {"a(date:b)": {name:"and", args:[{name:"a", args:[(new Date(NaN))]}]}} // XXX?
+        {"a(date:2009)": {name:"and", args:[{name:"a", args:[(new Date("2009"))]}]}},
+        //{"a(date:b)": {name:"and", args:[{name:"a", args:[(new Date(NaN))]}]}} // XXX?// supposed to throw an error
     ],
-    "true coercion": [
+    "boolean coercion": [
         {"a(true)": {name:"and", args:[{name:"a", args:[true]}]}},
-        {"a(true:b)": {name:"and", args:[{name:"a", args:[true]}]}}
-    ],
-    "false coercion": [
         {"a(false)": {name:"and", args:[{name:"a", args:[false]}]}},
-        {"a(false:b)": {name:"and", args:[{name:"a", args:[false]}]}}
+        {"a(boolean:true)": {name:"and", args:[{name:"a", args:[true]}]}}
     ],
     "null coercion": [
         {"a(null)": {name:"and", args:[{name:"a", args:[null]}]}},
-        {"a(null:b)": {name:"and", args:[{name:"a", args:[null]}]}},
+        {"a(auto:null)": {name:"and", args:[{name:"a", args:[null]}]}},
         {"a(string:null)": {name:"and", args:[{name:"a", args:["null"]}]}}
     ],
     "complex coercion": [
-        {"a=b|c=d&e=f|g=1": {name:"and", args:[ // XXX?
-            {name:"or", args:[
-                {name:"eq", args:["a", "b"]}, 
-                {name:"and", args:[
-                    {name:"eq", args:["c", "d"]}, 
-                    {name:"or", args:[
-                        {name:"eq", args:["e", "f"]}, 
-                        {name:"eq", args:["g", 1]}
-                    ]}
-                ]}
-            ]}
-        ]}}
+        {"(a=b|c=d)&(e=f|g=1)": {"name":"and","args":[{"name":"or","args":[{"name":"eq","args":["a","b"]},{"name":"eq","args":["c","d"]}]},
+        {"name":"or","args":[{"name":"eq","args":["e","f"]},{"name":"eq","args":["g",1]}]}]}}
     ],
     "complex grouping": [
         
@@ -140,7 +123,22 @@ exports.testParsing = function() {
     for (var group in queryPairs) {
         queryPairs[group].forEach(function(pair) {
             var key = Object.keys(pair)[0];
-            assert.deepEqual(parseQuery(key), parseQuery(pair[key]), group);
+            try{
+	            var parsed = parseQuery(key);
+	            var result = pair[key];
+	            if(typeof result == "string"){
+	            	result = parseQuery(result);
+	            }
+            }catch(e){
+            	e.message += " parsing " + group + ": " + key;
+            	throw e; 
+            }
+            try{
+            	var serialized = JSON.stringify(parsed);
+            }catch(e){
+            	serialized = e.message;
+            }
+            assert.deepEqual(parsed, result, group + ": " + key + " " + serialized);
         });
     }
 };
