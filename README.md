@@ -105,7 +105,8 @@ for more less operators):
 * aggregate(&lt;property|function>,...) - Aggregates the array, grouping by objects that are distinct for the provided properties, and then reduces the remaining other property values using the provided functions
 * distinct() - Returns a result set with duplicates removed 
 * in(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is in the provided array
-* contains(&lt;property>,&lt;value | array-of-values>) - Filters for objects where the specified property's value is an array and the array contains the provided value or contains a value in the provided array
+* any(&lt;property>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array contains any value that equals the provided value or satisfies the provided expression.
+* all(&lt;property>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array contains values that all equal the provided value or satisfy the provided expression.
 * limit(count,start,maxCount) - Returns the given range of objects from the result set
 * and(&lt;query>,&lt;query>,...) - Applies all the given queries
 * or(&lt;query>,&lt;query>,...) - The union of the given queries
@@ -115,6 +116,7 @@ for more less operators):
 * gt(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is greater than the provided value
 * ge(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is greater than or equal to the provided value
 * ne(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is not equal to the provided value
+* rel(&lt;relation name?>,&lt;query>) - Applies the provided query against the linked data of the provided relation name.
 * sum(&lt;property?>) - Finds the sum of every value in the array or if the property argument is provided, returns the sum of the value of property for every object in the array 
 * mean(&lt;property?>) - Finds the mean of every value in the array or if the property argument is provided, returns the mean of the value of property for every object in the array 
 * max(&lt;property?>) - Finds the maximum of every value in the array or if the property argument is provided, returns the maximum of the value of property for every object in the array 
@@ -125,7 +127,7 @@ for more less operators):
 * count() - Returns the count of the number of records in the query's result set
 
 If you are writing an implementation of RQL for a database or other storage endpoint, or want to introspect queries, you can use the parsed query data 
-structures. You can parse string queries with resource-query module's parseQuery function.
+structures. You can parse string queries with query module's parseQuery function.
 Query objects have a "name" property and an "args" with an array of the arguments.
 For example:
 

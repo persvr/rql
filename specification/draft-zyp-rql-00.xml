@@ -178,8 +178,11 @@ aggregate(departmentId,sum(sales))
      <section title="in">
       <t>in(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is in the provided array</t>
      </section>
-     <section title="contains">
-      <t>contains(&lt;property>,&lt;value | array-of-values>) - Filters for objects where the specified property's value is an array and the array contains the provided value or contains a value in the provided array</t>
+     <section title="any">
+      <t>any(&lt;property>,&lt;value | query>) - Filters for objects where the specified property's value is an array and the array contains any value that equals the provided value or satisfies the provided query.</t>
+     </section>
+     <section title="all">
+      <t>all(&lt;property>,&lt;value | query>) - Filters for objects where the specified property's value is an array and the array contains values that all equal the provided value or satisfy the provided query.</t>
      </section>
      <section title="limit">
       <t>limit(&tl;count>,&lt;start>) - Returns a limited range of records from the result set. The first parameter indicates the number of records to return, and the optional second parameter indicates the starting offset.</t>
@@ -207,6 +210,9 @@ aggregate(departmentId,sum(sales))
      </section>
      <section title="ne">
       <t>ne(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is not equal to the provided value</t>
+     </section>
+     <section title="rel">
+      <t>rel(&lt;relation name?>,&lt;query>) - Applies the provided query against the linked data of the provided relation name.</t>
      </section>
      <section title="sum">
       <t>sum(&lt;property?>) - Finds the sum of every value in the array or if the property argument is provided, returns the sum of the value of property for every object in the array</t>
