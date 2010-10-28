@@ -127,7 +127,7 @@ for more less operators):
 * count() - Returns the count of the number of records in the query's result set
 
 If you are writing an implementation of RQL for a database or other storage endpoint, or want to introspect queries, you can use the parsed query data 
-structures. You can parse string queries with query module's parseQuery function.
+structures. You can parse string queries with parser module's parseQuery function.
 Query objects have a "name" property and an "args" with an array of the arguments.
 For example:
 
@@ -155,6 +155,11 @@ For example:
 		]
 	}
 				
+RQL Templating
+--------------
+
+RQL 
+
 Licensing
 --------
 
