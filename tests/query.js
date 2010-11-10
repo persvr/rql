@@ -20,7 +20,7 @@ var queryPairs = {
         {"a((b),c)": {"name": "and", args:[{name:"a", args:[["b"], "c"]}]}},
         {"a((b,c),d)": {name:"and", args:[{name:"a", args:[["b", "c"], "d"]}]}},
         {"a(b)&c(d(e))": {name:"and", args:[
-            {name:"a", args:["b"]}, 
+            {name:"a", args:["b"]},
             {name:"c", args:[{name:"d", args:["e"]}]}
         ]}}
     ],
@@ -82,7 +82,7 @@ var queryPairs = {
         {"a(b(c<d,e(f=g)))": {}}
     ],
     "complex comparisons": [
-        
+
     ],
     "string coercion": [
         {"a(string)": {name:"and", args:[{name:"a", args:["string"]}]}},
@@ -115,7 +115,7 @@ var queryPairs = {
         {"name":"or","args":[{"name":"eq","args":["e","f"]},{"name":"eq","args":["g",1]}]}]}}
     ],
     "complex grouping": [
-        
+
     ]
 };
 
@@ -131,7 +131,7 @@ exports.testParsing = function() {
 	            }
             }catch(e){
             	e.message += " parsing " + group + ": " + key;
-            	throw e; 
+            	throw e;
             }
             try{
             	var serialized = JSON.stringify(parsed);
@@ -144,7 +144,12 @@ exports.testParsing = function() {
 };
 
 exports.testBindParameters = function() {
-    // TODO 
+    // TODO
+    var parsed;
+    parsed = parseQuery('in(id,$1)', [['a','b','c']]);
+    assert.deepEqual(parsed, {name: 'and', args: [{name: 'in', args: ['id', 'a', 'b', 'c']}]});
+    parsed = parseQuery('eq(id,$1)', ['a']);
+    assert.deepEqual(parsed, {name: 'and', args: [{name: 'eq', args: ['id', 'a']}]});
 };
 
 exports.testExecution = function() {
