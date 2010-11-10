@@ -26,7 +26,7 @@ var queryPairs = {
     ],
     "dot-comparison": [
     	{"foo.bar=3": {name:"and", args:[{name:"eq", args:["foo.bar",3]}]}},
-    	{"select(sub.name)": {name:"and", args:[{name:"select", args:["sub.name"]}]}}
+    	{"select(sub.name)": {name:"and", args:[{name:"select", args:["sub.name"]}], select: ["sub.name"]}}
     ],
     "equality": [
         {"eq(a,b)": {name:"and", args:[{name:"eq", args:["a","b"]}]}},
@@ -149,7 +149,7 @@ exports.testBindParameters = function() {
     parsed = parseQuery('in(id,$1)', [['a','b','c']]);
     assert.deepEqual(parsed, {name: 'and', args: [{name: 'in', args: ['id', ['a', 'b', 'c']]}]});
     parsed = parseQuery('eq(id,$1)', ['a']);
-    assert.deepEqual(parsed, {name: 'and', args: [{name: 'eq', args: ['id', 'a']}]});
+    assert.deepEqual(parsed, {name: 'and', args: [{name: 'eq', args: ['id', 'a']}], id: 'a'});
 };
 
 exports.testExecution = function() {
