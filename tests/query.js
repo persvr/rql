@@ -159,14 +159,14 @@ exports.testExecution = function() {
 exports.testStringification = function() {
     // TODO
     var parsed;
-    parsed = parseQuery('eq(id1,RE%3A%5Eabc%5C%2F)');
+    parsed = parseQuery('eq(id1,RE:%5Eabc%5C%2F)');
     // Hmmm. deepEqual gives null for regexps?
     assert.ok(parsed.args[0].args[1].toString() === /^abc\//.toString());
     //assert.deepEqual(parsed, {name: 'and', args: [{name: 'eq', args: ['id1', /^abc\//]}]});
-    assert.ok(Query().eq('_1',/GGG(EE|FF)/i)+'' === 'eq(_1,re%3AGGG%28EE%7CFF%29)');
-    parsed = parseQuery('eq(_1,re%3AGGG%28EE%7CFF%29)');
+    assert.ok(Query().eq('_1',/GGG(EE|FF)/i)+'' === 'eq(_1,re:GGG%28EE%7CFF%29)');
+    parsed = parseQuery('eq(_1,re:GGG%28EE%7CFF%29)');
     console.log(parsed.args[0].args[1].toString() === /GGG(EE|FF)/i.toString());
-    //assert.ok(Query().eq('_1',/GGG(EE|FF)/)+'' === 'eq(_1,RE%3AGGG%28EE%7CFF%29)');
+    //assert.ok(Query().eq('_1',/GGG(EE|FF)/)+'' === 'eq(_1,RE:GGG%28EE%7CFF%29)');
 };
 
 if (require.main === module)
