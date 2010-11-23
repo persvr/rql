@@ -1,24 +1,34 @@
 {
-	"name": "rql",
-	"author": "Kris Zyp",
-	"contributors": ["Vladimir Dronnikov <dronnikov@gmail.com>"],
-	"keywords": [
-		"resource",
-		"query",
-		"uri"
-	],
-	"mappings": {
-		"patr": "http://github.com/kriszyp/patr/zipball/v0.2.1",
-		"promised-io": "http://github.com/kriszyp/promised-io/zipball/v0.2.1"
-	},
-	"githubName": "rql",
-	"type": "zip",
-	"location": "http://github.com/kriszyp/rql/zipball/master",
-	"overlay": {
-		"npm": {
-			"dependencies": {
-				"patr": "*"
-			}
-		}
-	}
+  "name": "rql",
+  "version": "0.2.2",
+  "author": "Kris Zyp",
+  "contributors": ["Vladimir Dronnikov <dronnikov@gmail.com>"],
+  "keywords": [
+    "resource",
+    "query",
+    "uri"
+  ],
+  "description": "Query language for the web, NoSQL",
+  "licenses": [
+     {
+         "type": "AFLv2.1",
+         "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L43"
+     },
+     {
+         "type": "BSD",
+         "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L13"
+     }
+  ],
+  "repository": {
+    "type":"git",
+    "url":"http://github.com/kriszyp/rql"
+  },
+  "mappings": {
+    "patr": "http://github.com/kriszyp/patr/zipball/v0.2.1",
+    "promised-io": "http://github.com/kriszyp/promised-io/zipball/v0.2.1"
+  },
+  "dependencies": {
+    "patr": ">=0.2.1",
+    "promised-io": ">=0.2.1"
+  }
 }
