@@ -155,6 +155,18 @@ For example:
 		]
 	}
 				
+Installation
+========
+
+It is recommended that you install RQL such that it is available in require statements
+under the "rql" path. This can easily be done with a package mapping compliant module
+loader like [Nodules](http://github.com/kriszyp/nodules) by using a mapping in your 
+package.json:
+
+    "mappings": {
+	  "rql": "http://github.com/kriszyp/perstore/zipball/master"
+    }
+
 RQL Templating
 --------------
 
