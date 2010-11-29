@@ -1,6 +1,9 @@
 var assert = require("assert"),
     Query = require("../lib/query").Query,
     parseQuery = require("../lib/parser").parseQuery;
+    executeQuery = require("../lib/js-array").executeQuery;
+
+Array.prototype.match = function(query, params){return executeQuery(query, params || [], this);};
 
 exports.testBehavior = function() {
     //assert.error(parseQuery(), "parseQuery requires a string");
@@ -154,6 +157,8 @@ exports.testBindParameters = function() {
 
 exports.testExecution = function() {
     // TODO
+    // nested props: https://github.com/kriszyp/rql/issues/#issue/15
+    assert.deepEqual([{"path":[1,2,3]},{"path":[9,3,7]}].match("foo.cat=3"), []);
 };
 
 exports.testStringification = function() {
