@@ -167,6 +167,9 @@ exports.testStringification = function() {
     parsed = parseQuery('eq(_1,re:GGG%28EE%7CFF%29)');
     console.log(parsed.args[0].args[1].toString() === /GGG(EE|FF)/i.toString());
     //assert.ok(Query().eq('_1',/GGG(EE|FF)/)+'' === 'eq(_1,RE:GGG%28EE%7CFF%29)');
+    // string to array and back
+    var str = 'somefunc(and(1),(a,b),(10,(10,1)),(a,b.c))';
+    assert.equal(parseQuery(str)+'', str);
 };
 
 if (require.main === module)
