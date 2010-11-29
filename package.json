@@ -24,8 +24,8 @@
     "url":"http://github.com/kriszyp/rql"
   },
   "mappings": {
-    "patr": "http://github.com/kriszyp/patr/zipball/v0.2.1",
-    "promised-io": "http://github.com/kriszyp/promised-io/zipball/v0.2.1"
+    "patr": "http://nodeload.github.com/kriszyp/patr/zipball/v0.2.1",
+    "promised-io": "http://nodeload.github.com/kriszyp/promised-io/zipball/v0.2.1"
   },
   "dependencies": {
     "patr": ">=0.2.1",
