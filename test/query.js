@@ -174,7 +174,7 @@ exports.testStringification = function() {
     assert.equal(parseQuery(str)+'', str);
     // quirky arguments
     var name = ['a/b','c.d'];
-    assert.equal(parseQuery(Query().eq(name,1)+'')+'', 'eq(a%2Fb/c.d,1)');
+    assert.equal(parseQuery(Query().eq(name,1)+'')+'', 'eq((a%2Fb,c.d),1)');
     assert.deepEqual(parseQuery(Query().eq(name,1)+'').args[0].args[0], name);
 };
 
