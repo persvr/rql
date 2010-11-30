@@ -172,9 +172,9 @@ exports.testStringification = function() {
     // string to array and back
     var str = 'somefunc(and(1),(a,b),(10,(10,1)),(a,b.c))';
     assert.equal(parseQuery(str)+'', str);
-    // arguments with dots
-    assert.equal(parseQuery(Query().eq(['a/b','c'],1)+'')+'', 'eq(a%2Fb/c,1)');
-    var name = ['a/b','c'];
+    // quirky arguments
+    var name = ['a/b','c.d'];
+    assert.equal(parseQuery(Query().eq(name,1)+'')+'', 'eq(a%2Fb/c.d,1)');
     assert.deepEqual(parseQuery(Query().eq(name,1)+'').args[0].args[0], name);
 };
 
