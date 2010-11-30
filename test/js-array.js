@@ -32,6 +32,14 @@ exports.testFiltering = function() {
 	assert.equal(executeQuery("not(all(tags,even))", {}, data).length, 2); 
 };
 
+exports.testFiltering1 = function() {
+	var data = [{"path.1":[1,2,3]}, {"path.1":[9,3,7]}];
+	assert.deepEqual(executeQuery("any(path,3)&sort()", {}, data), []); // path is undefined
+	assert.deepEqual(executeQuery("any(path.1,3)&sort()", {}, data), data); // 3 found in both
+	assert.deepEqual(executeQuery("not(any(path.1,3))&sort()", {}, data), []); // 3 found in both
+	assert.deepEqual(executeQuery("not(any(path.1,7))&sort()", {}, data), [data[0]]); // 7 found in second
+};
+
 
 if (require.main === module)
     require("patr/runner").run(exports);
