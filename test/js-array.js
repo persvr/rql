@@ -47,6 +47,14 @@ exports.testFiltering1 = function() {
 	assert.deepEqual(executeQuery("not(any(path.1,7))&sort()", {}, data), [data[0]]); // 7 found in second
 };
 
+exports.testNot = function() {
+	var data = [{"path.1":[1,2,3]}, {"path.1":[9,3,7]}];
+	assert.deepEqual(executeQuery("not(not(any(path,3)))", {}, data), []); // path is undefined
+	assert.deepEqual(executeQuery("not(not(any(path.1,3)))", {}, data), data); // 3 found in both
+	assert.deepEqual(executeQuery("not(not(any(path.1,7)))", {}, data), [data[1]]); // 7 found in second
+	assert.deepEqual(executeQuery("not(not(not(any(path.1,7))))", {}, data), [data[0]]); // 7 found in second
+};
+
 
 if (require.main === module)
     require("patr/runner").run(exports);
