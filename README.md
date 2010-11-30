@@ -26,7 +26,9 @@ using chained operator calls in JavaScript. We could
 write this query:
 
     var Query = require("rql/query").Query;
-    new Query().eq("foo",3).forEach(...);
+    var fooEq3Query = new Query().eq("foo",3);
+    
+    
 
 The RQL grammar is based around standard URI delimiters. The standard rules for 
 encoding strings with URL encoding (%xx) are observed. RQL also supersets FIQL. 
@@ -77,11 +79,16 @@ we can do:
 
     foo=string:3
 
-Any property can be nested by using a dot syntax. To search by the bar property of
+Any property can be nested by using an array of properties. To search by the bar property of
 the object in the foo property we can do:
 
-    foo.bar=3
+    (foo,bar)=3
     
+We can also use slashes as shorthand for arrays, so we could equivalently write the nested
+query:
+
+    foo/bar=3
+
 Another common operator is sort. We can use the sort operator to sort by a specified property.
 To sort by foo in ascending order:
 	
