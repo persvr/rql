@@ -31,12 +31,10 @@ exports.testFiltering = function() {
 	assert.equal(executeQuery("excludes(tags,ne(fun))", {}, data).length, 1); 
 	assert.equal(executeQuery("excludes(tags,ne(even))", {}, data).length, 0); 
 	// eq() on re: should trigger .match()
-	assert.deepEqual(executeQuery("price=re:10", {}, data), [data[0]]);
+	assert.deepEqual(executeQuery("price=match=10", {}, data), [data[0]]);
 	// ne() on re: should trigger .not(.match())
-	assert.deepEqual(executeQuery("ne(price,re:10)", {}, data), [data[1]]);
-	// other comparisons to re: should treat regexp as string
-	assert.deepEqual(executeQuery("lt(price,re:10)", {}, data), [data[1]]);
-	assert.deepEqual(executeQuery("gt(price,re:10)", {}, data), []);
+	assert.deepEqual(executeQuery("name=match=f.*", {}, data), [data[1]]);
+	assert.deepEqual(executeQuery("name=match=glob:f*", {}, data), [data[1]]);
 };
 
 exports.testFiltering1 = function() {
