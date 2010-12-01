@@ -31,8 +31,22 @@ exports.testFiltering = function() {
 	assert.equal(executeQuery("excludes(tags,ne(fun))", {}, data).length, 1); 
 	assert.equal(executeQuery("excludes(tags,ne(even))", {}, data).length, 0); 
 	assert.equal(executeQuery("excludes(tags,ne(even))", {}, data).length, 2); 
+	// eq() on re: should trigger .match()
+	assert.deepEqual(executeQuery("price=re:10", {}, data), [data[0]]);
+	// ne() on re: should trigger .not(.match())
+	assert.deepEqual(executeQuery("ne(price,re:10)", {}, data), [data[1]]);
+	// other comparisons to re: should treat regexp as string
+	assert.deepEqual(executeQuery("lt(price,re:10)", {}, data), [data[1]]);
+	assert.deepEqual(executeQuery("gt(price,re:10)", {}, data), []);
 };
 
+exports.testFiltering1 = function() {
+	var data = [{"path.1":[1,2,3]}, {"path.1":[9,3,7]}];
+	assert.deepEqual(executeQuery("contains(path,3)&sort()", {}, data), []); // path is undefined
+	assert.deepEqual(executeQuery("contains(path.1,3)&sort()", {}, data), data); // 3 found in both
+	assert.deepEqual(executeQuery("excludes(path.1,3)&sort()", {}, data), []); // 3 found in both
+	assert.deepEqual(executeQuery("excludes(path.1,7)&sort()", {}, data), [data[0]]); // 7 found in second
+};
 
 if (require.main === module)
     require("patr/runner").run(exports);
