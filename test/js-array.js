@@ -27,10 +27,9 @@ exports.testFiltering = function() {
 	assert.equal(executeQuery("out(price,(5))", {}, data).length, 1); 
 	assert.equal(executeQuery("contains(tags,even)", {}, data).length, 1); 
 	assert.equal(executeQuery("contains(tags,fun)", {}, data).length, 2); 
-	assert.equal(executeQuery("excludes(tags,fun)", {}, data).length, 1); 
+	assert.equal(executeQuery("excludes(tags,fun)", {}, data).length, 0); 
 	assert.equal(executeQuery("excludes(tags,ne(fun))", {}, data).length, 1); 
 	assert.equal(executeQuery("excludes(tags,ne(even))", {}, data).length, 0); 
-	assert.equal(executeQuery("excludes(tags,ne(even))", {}, data).length, 2); 
 	// eq() on re: should trigger .match()
 	assert.deepEqual(executeQuery("price=re:10", {}, data), [data[0]]);
 	// ne() on re: should trigger .not(.match())
