@@ -112,8 +112,9 @@ for more less operators):
 * aggregate(&lt;property|function>,...) - Aggregates the array, grouping by objects that are distinct for the provided properties, and then reduces the remaining other property values using the provided functions
 * distinct() - Returns a result set with duplicates removed 
 * in(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is in the provided array
-* any(&lt;property>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array contains any value that equals the provided value or satisfies the provided expression.
-* all(&lt;property>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array contains values that all equal the provided value or satisfy the provided expression.
+* out(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is not in the provided array
+* contains(&lt;property>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array contains any value that equals the provided value or satisfies the provided expression.
+* excludes(&lt;property>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array does not contain any of value that equals the provided value or satisfies the provided expression.
 * limit(count,start,maxCount) - Returns the given range of objects from the result set
 * and(&lt;query>,&lt;query>,...) - Applies all the given queries
 * or(&lt;query>,&lt;query>,...) - The union of the given queries

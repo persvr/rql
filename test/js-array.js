@@ -4,7 +4,7 @@ var assert = require("assert"),
 
 var data = [
 	{
-		"with.dot": "dotted",
+		"with/slash": "slashed",
 		"nested": {
 			"property": "value"
 		},
@@ -22,14 +22,15 @@ exports.testFiltering = function() {
 	assert.equal(executeQuery("price=lt=10", {}, data).length, 1); 
 	assert.equal(executeQuery("price=lt=11", {}, data).length, 2); 
 	assert.equal(executeQuery("nested/property=value", {}, data).length, 1); 
-	assert.equal(executeQuery("with.dot=dotted", {}, data).length, 1); 
-	assert.equal(executeQuery("not(in(price,(5,10)))", {}, data).length, 0); 
-	assert.equal(executeQuery("not(in(price,(5)))", {}, data).length, 1); 
-	assert.equal(executeQuery("any(tags,even)", {}, data).length, 1); 
-	assert.equal(executeQuery("any(tags,fun)", {}, data).length, 2); 
-	assert.equal(executeQuery("all(tags,fun)", {}, data).length, 1); 
-	assert.equal(executeQuery("all(tags,even)", {}, data).length, 0); 
-	assert.equal(executeQuery("not(all(tags,even))", {}, data).length, 2); 
+	assert.equal(executeQuery("with%2Fslash=slashed", {}, data).length, 1); 
+	assert.equal(executeQuery("out(price,(5,10))", {}, data).length, 0); 
+	assert.equal(executeQuery("out(price,(5))", {}, data).length, 1); 
+	assert.equal(executeQuery("contains(tags,even)", {}, data).length, 1); 
+	assert.equal(executeQuery("contains(tags,fun)", {}, data).length, 2); 
+	assert.equal(executeQuery("excludes(tags,fun)", {}, data).length, 1); 
+	assert.equal(executeQuery("excludes(tags,ne(fun))", {}, data).length, 1); 
+	assert.equal(executeQuery("excludes(tags,ne(even))", {}, data).length, 0); 
+	assert.equal(executeQuery("excludes(tags,ne(even))", {}, data).length, 2); 
 };
 
 
