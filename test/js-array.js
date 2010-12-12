@@ -23,8 +23,8 @@ exports.testFiltering = function() {
 	assert.equal(executeQuery("price=lt=11", {}, data).length, 2); 
 	assert.equal(executeQuery("nested/property=value", {}, data).length, 1); 
 	assert.equal(executeQuery("with%2Fslash=slashed", {}, data).length, 1); 
-	assert.equal(executeQuery("out(price,(5,10))", {}, data).length, 0); 
-	assert.equal(executeQuery("out(price,(5))", {}, data).length, 1); 
+	assert.equal(executeQuery("ne(price,(5,10))", {}, data).length, 0); 
+	assert.equal(executeQuery("ne(price,(5))", {}, data).length, 1); 
 	assert.equal(executeQuery("contains(tags,even)", {}, data).length, 1); 
 	assert.equal(executeQuery("contains(tags,fun)", {}, data).length, 2); 
 	assert.equal(executeQuery("excludes(tags,fun)", {}, data).length, 0); 

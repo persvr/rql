@@ -103,33 +103,33 @@ each department:
 
     aggregate(departmentId,sum(sales))
         
-Here is a definition of the common operators (individual stores may have support
-for more less operators):
+Here are definitions of the common operators (individual stores may have support
+for more less operators). First are the filtering and sorting operations:
 
-* sort(&lt;+|->&lt;property) - Sorts by the given property in order specified by the prefix (+ for ascending, - for descending)  
-* select(&lt;property>,&lt;property>,...) - Trims each object down to the set of properties defined in the arguments
-* values(&lt;property>) - Returns an array of the given property value for each object
-* aggregate(&lt;property|function>,...) - Aggregates the array, grouping by objects that are distinct for the provided properties, and then reduces the remaining other property values using the provided functions
-* distinct() - Returns a result set with duplicates removed 
-* in(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is in the provided array
-* out(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is not in the provided array
-* contains(&lt;property>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array contains any value that equals the provided value or satisfies the provided expression.
-* excludes(&lt;property>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array does not contain any of value that equals the provided value or satisfies the provided expression.
-* limit(count,start,maxCount) - Returns the given range of objects from the result set
+* eq(&lt;property?>,&lt;value>+) - Filters for objects where the specified property's value is equal to the provided value or if the value is an array, equal to any of the values in the array.
+* ne(&lt;property?>,&lt;value>+) - Filters for objects where the specified property's value is not equal to the provided value or if the value is an array, not equal to any of the values in the array.
+* lt(&lt;property?>,&lt;value>) - Filters for objects where the specified property's value is less than the provided value
+* le(&lt;property?>,&lt;value>) - Filters for objects where the specified property's value is less than or equal to the provided value
+* gt(&lt;property?>,&lt;value>) - Filters for objects where the specified property's value is greater than the provided value
+* ge(&lt;property?>,&lt;value>) - Filters for objects where the specified property's value is greater than or equal to the provided value
 * and(&lt;query>,&lt;query>,...) - Applies all the given queries
 * or(&lt;query>,&lt;query>,...) - The union of the given queries
-* eq(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is equal to the provided value
-* lt(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is less than the provided value
-* le(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is less than or equal to the provided value
-* gt(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is greater than the provided value
-* ge(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is greater than or equal to the provided value
-* ne(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is not equal to the provided value
-* rel(&lt;relation name?>,&lt;query>) - Applies the provided query against the linked data of the provided relation name.
+* contains(&lt;property?>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array contains any value that equals the provided value or satisfies the provided expression.
+* excludes(&lt;property?>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array does not contain any of value that equals the provided value or satisfies the provided expression.
+* type(&lt;property?>,&lt;type>) - Filters for objects where the specified property's value is of the given type.
+* rql(&lt;property?>,&lt;type>) - Filters for objects where the specified property's value matches the given RQL template.
+* sort(&lt;+|->&lt;property) - Sorts by the given property in order specified by the prefix (+ for ascending, - for descending)  
+* recurse(&lt;property?>) - Recursively searches, looking in children of the object as objects in arrays in the given property value
+
+The next group of operators act on the list of the objects returned from the filtering and sorting operations:  
+* limit(count,start,maxTotalCount) - Returns the given range of objects from the result set, where "count" is the maximum number of objects to return, "start" is an optional starting offset, and maxTotalCount is an optional limit on the max total count that needs to be computed.
+* select(&lt;property>,&lt;property>,...) - Trims each object down to the set of properties defined in the arguments
+* values(&lt;property>) - Returns an array of the given property value for each object
+* aggregate(&lt;property|function>,...) - Aggregates the array, grouping by objects that are distinct for the provided properties, and then reduces the remaining other property values using the provided functions. When called with no arguments, returns a result set with duplicates removed 
 * sum(&lt;property?>) - Finds the sum of every value in the array or if the property argument is provided, returns the sum of the value of property for every object in the array 
 * mean(&lt;property?>) - Finds the mean of every value in the array or if the property argument is provided, returns the mean of the value of property for every object in the array 
 * max(&lt;property?>) - Finds the maximum of every value in the array or if the property argument is provided, returns the maximum of the value of property for every object in the array 
 * min(&lt;property?>) - Finds the minimum of every value in the array or if the property argument is provided, returns the minimum of the value of property for every object in the array 
-* recurse(&lt;property?>) - Recursively searches, looking in children of the object as objects in arrays in the given property value
 * first() - Returns the first record of the query's result set
 * one() - Returns the first and only record of the query's result set, or produces an error if the query's result set has more or less than one record in it.
 * count() - Returns the count of the number of records in the query's result set
