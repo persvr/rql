@@ -1,7 +1,9 @@
 Resource Query Language (RQL) is a query language designed for use in URIs with object
 style data structures. This project includes the RQL specification and
 provides a JavaScript implementation of query 
-parsing and query execution implementation for JavaScript arrays. RQL can be thought as basically a set of
+parsing and query execution implementation for JavaScript arrays. The JavaScript library
+supports AMD and NodeJS/CommonJS module format so it can be run in the browser or
+in the server. RQL can be thought as basically a set of
 nestable named operators which each have a set of arguments. RQL is designed to
 have an extremely simple, but extensible grammar that can be written in a URL friendly query string. A simple RQL
 query with a single operator that indicates a search for any resources with a property of
