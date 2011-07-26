@@ -26,6 +26,12 @@
     "type":"git",
     "url":"http://github.com/kriszyp/rql"
   },
+  "maintainers": [
+  	{
+  		"name": "Kris Zyp",
+  		"email": "kriszyp@gmail.com"
+  	}
+  ],
   "mappings": {
     "patr": "http://github.com/kriszyp/patr/zipball/v0.2.1",
     "promised-io": "http://github.com/kriszyp/promised-io/zipball/v0.2.1"
