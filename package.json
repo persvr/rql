@@ -37,8 +37,10 @@
     "promised-io": "http://github.com/kriszyp/promised-io/zipball/v0.2.1"
   },
   "dependencies": {
-    "patr": ">=0.2.1",
     "promised-io": ">=0.2.1"
+  },
+  "testDependencies": {
+    "patr": ">=0.2.1"
   },
   "icon": "http://packages.dojofoundation.org/images/persvr.png"
 }
