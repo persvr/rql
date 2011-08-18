@@ -1,6 +1,6 @@
 var assert = require("assert"),
-	Query = require("../lib/query").Query,
-    executeQuery = require("../lib/js-array").executeQuery;
+	Query = require("../query").Query,
+    executeQuery = require("../js-array").executeQuery;
 
 var data = [
 	{

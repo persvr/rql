@@ -1,6 +1,6 @@
 var assert = require("assert"),
-    Query = require("../lib/query").Query,
-    parseQuery = require("../lib/parser").parseQuery;
+    Query = require("../query").Query,
+    parseQuery = require("../parser").parseQuery;
 exports.testJSArray = require("./js-array");
 
 exports.testBehavior = function() {
