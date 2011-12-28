@@ -20,17 +20,15 @@ Such that this can be used in URIs like:
 
     http://example.org/data?foo=3
 
-JavaScript Library
-==============
+# JavaScript Library
 
 Using the JavaScript library we can construct queries 
-using chained operator calls in JavaScript. We could
-write this query:
+using chained operator calls in JavaScript. We could execute the query above like this:
 
     var Query = require("rql/query").Query;
-    var fooEq3Query = new Query().eq("foo",3);
+    var fooEq3Query = new Query().eq("foo",3);    
     
-    
+# RQL Rules
 
 The RQL grammar is based around standard URI delimiters. The standard rules for 
 encoding strings with URL encoding (%xx) are observed. RQL also supersets FIQL. 
@@ -136,6 +134,22 @@ for more less operators):
 * one() - Returns the first and only record of the query's result set, or produces an error if the query's result set has more or less than one record in it.
 * count() - Returns the count of the number of records in the query's result set
 
+# JavaScript Modules
+
+## rql/query
+
+    var newQuery = require("rql/query").Query();
+
+This module allows us to construct queries. With the query object, we could execute
+RQL operators as methods against the query object. For example:
+
+    var Query = require("rql/query").Query;
+    var fooBetween3And10Query = new Query().lt("foo",3).gt("foo",10);  
+
+## rql/parser
+
+	var parsedQueryObject = require("rql/parser").parseQuery(rqlString);
+
 If you are writing an implementation of RQL for a database or other storage endpoint, or want to introspect queries, you can use the parsed query data 
 structures. You can parse string queries with parser module's parseQuery function.
 Query objects have a "name" property and an "args" with an array of the arguments.
@@ -168,19 +182,18 @@ For example:
 Installation
 ========
 
-It is recommended that you install RQL such that it is available in require statements
-under the "rql" path. This can easily be done with a package mapping compliant module
-loader like [Nodules](http://github.com/kriszyp/nodules) by using a mapping in your 
-package.json:
+RQL can be installed using any standard package manager, for example with NPM:
 
-    "mappings": {
-	  "rql": "http://github.com/kriszyp/perstore/zipball/master"
-    }
+    npm install rql
 
-RQL Templating
---------------
+or CPM:
 
-RQL 
+    cpm install rql
+ 
+or RingoJS:
+
+    ringo-admin install persvr/rql
+
 
 Licensing
 --------
@@ -198,13 +211,9 @@ See the main Persevere project for more information:
 
 * [http://persvr.org/](http://persvr.org/)
 
-### Source & Download:
-
-* [http://github.com/kriszyp/perstore/](http://github.com/kriszyp/perstore)
-
 ### Mailing list:
 
-* [http://groups.google.com/group/persevere-framework](http://groups.google.com/group/persevere-framework)
+* [http://groups.google.com/group/json-query](http://groups.google.com/group/json-query)
 
 ### IRC:
 
