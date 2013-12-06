@@ -42,5 +42,6 @@
   "devDependencies": {
     "patr": ">0.2.6"
   },
-  "icon": "http://packages.dojofoundation.org/images/persvr.png"
+  "icon": "http://packages.dojofoundation.org/images/persvr.png",
+  "dojoBuild": "package.js"
 }
