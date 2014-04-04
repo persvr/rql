@@ -15,6 +15,13 @@ var operatorMap = {
 	"!=": "ne"
 };
 
+function contains(array, item){
+	for(var i = 0, l = array.length; i < l; i++){
+		if(array[i] === item){
+			return true;
+		}
+	}
+}
 exports.primaryKeyName = 'id';
 exports.lastSeen = ['sort', 'select', 'values', 'limit'];
 exports.jsonQueryCompatible = true;
@@ -98,7 +105,7 @@ function parse(/*String|Object*/query, parameters){
 				term.args.push(stringToValue(propertyOrValue, parameters));
 
 				// cache the last seen sort(), select(), values() and limit()
-				if (exports.lastSeen.indexOf(term.name) >= 0) {
+				if (contains(exports.lastSeen, term.name)) {
 					topTerm.cache[term.name] = term.args;
 				}
 				// cache the last seen id equality
@@ -122,7 +129,7 @@ function parse(/*String|Object*/query, parameters){
 		term.args.push(newTerm);
 		term = newTerm;
 		// cache the last seen sort(), select(), values() and limit()
-		if (exports.lastSeen.indexOf(term.name) >= 0) {
+		if (contains(exports.lastSeen, term.name)) {
 			topTerm.cache[term.name] = term.args;
 		}
 	}
@@ -137,7 +144,10 @@ function parse(/*String|Object*/query, parameters){
     function removeParentProperty(obj) {
     	if(obj && obj.args){
 	    	delete obj.parent;
-	    	obj.args.forEach(removeParentProperty);
+	    	var args = obj.args;
+			for(var i = 0, l = args.length; i < l; i++){
+		    	removeParentProperty(args[i]);
+		    }
     	}
         return obj;
     };

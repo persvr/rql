@@ -39,26 +39,29 @@ function Query(name){
 	this.name = name || "and";
 	this.args = [];
 }
+function serializeArgs(array, delimiter){
+	var results = [];
+	for(var i = 0, l = array.length; i < l; i++){
+		results.push(queryToString(array[i]));
+	}
+	return results.join(delimiter);
+}
 exports.Query.prototype = Query.prototype;
 Query.prototype.toString = function(){
 	return this.name === "and" ?
-		this.args.map(queryToString).join("&") :
+		serializeArgs(this.args, "&") :
 		queryToString(this);
 };
 
 function queryToString(part) {
 		if (part instanceof Array) {
-				return '('+part.map(function(arg) {
-						return queryToString(arg);
-				}).join(",")+')';
+				return '(' + serializeArgs(part, ",")+')';
 		}
 		if (part && part.name && part.args) {
 				return [
 						part.name,
 						"(",
-						part.args.map(function(arg, pos) {
-								return queryToString(arg);
-						}).join(","),
+						serializeArgs(part.args, ","),
 						")"
 				].join("");
 		}
@@ -137,7 +140,7 @@ exports.updateQueryMethods = function(){
 
 };
 
-exports.updateQueryMethods();
+//exports.updateQueryMethods();
 
 /* recursively iterate over query terms calling 'fn' for each term */
 Query.prototype.walk = function(fn, options){

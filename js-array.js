@@ -9,8 +9,32 @@ define(["exports", "./parser", "./query"], function(exports, parser, QUERY){
 //({define:typeof define!="undefined"?define:function(deps, factory){module.exports = factory(exports, require("./parser"));}}).
 //define(["exports", "./parser"], function(exports, parser){
 
+function each(array, callback){
+	var emit, result;
+	if (callback.length > 1) {
+		// can take a second param, emit
+		result = [];
+		emit = function(value){
+			result.push(value);
+		}
+	}
+	for(var i = 0, l = array.length; i < l; i++){
+		if(callback(array[i], emit)){
+			return result || true;
+		}
+	}
+	return result;
+}
+function contains(array, item){
+	for(var i = 0, l = array.length; i < l; i++){
+		if(array[i] === item){
+			return true;
+		}
+	}
+}
+
 var parseQuery = parser.parseQuery;
-var stringify = JSON.stringify || function(str){
+var stringify = typeof JSON !== "undefined" && JSON.stringify || function(str){
 	return '"' + str.replace(/"/g, "\\\"") + '"';
 };
 var nextId = 1;
@@ -51,29 +75,29 @@ exports.operators = {
 		return new RegExp(regex).test(value);
 	}),
 	"in": filter(function(value, values){
-		return values.indexOf(value) > -1;
+		return contains(values, value);
 	}),
 	out: filter(function(value, values){
-		return values.indexOf(value) == -1;
+		return !contains(values, value);
 	}),
 	contains: filter(function(array, value){
 		if(typeof value == "function"){
-			return array instanceof Array && array.some(function(v){
+			return array instanceof Array && each(array, function(v){
 				return value.call([v]).length;
 			});
 		}
 		else{
-			return array instanceof Array && array.indexOf(value) > -1;
+			return array instanceof Array && contains(array, value);
 		}
 	}),
 	excludes: filter(function(array, value){
 		if(typeof value == "function"){
-			return !array.some(function(v){
+			return !each(array, function(v){
 				return value.call([v]).length;
 			});
 		}
 		else{
-			return array.indexOf(value) == -1;
+			return !contains(array, value);
 		}
 	}),
 	or: function(){
@@ -110,7 +134,7 @@ exports.operators = {
 	select: function(){
 		var args = arguments;
 		var argc = arguments.length;
-		return this.map(function(object){
+		return each(this, function(object, emit){
 			var selected = {};
 			for(var i = 0; i < argc; i++){
 				var propertyName = args[i];
@@ -119,13 +143,13 @@ exports.operators = {
 					selected[propertyName] = value;
 				}
 			}
-			return selected;
+			emit(selected);
 		});
 	},
 	unselect: function(){
 		var args = arguments;
 		var argc = arguments.length;
-		return this.map(function(object){
+		return each(this, function(object, emit){
 			var selected = {};
 			for (var i in object) if (object.hasOwnProperty(i)) {
 				selected[i] = object[i];
@@ -133,18 +157,18 @@ exports.operators = {
 			for(var i = 0; i < argc; i++) {
 				delete selected[args[i]];
 			}
-			return selected;
+			emit(selected);
 		});
 	},
 	values: function(first){
 		if(arguments.length == 1){
-			return this.map(function(object){
-				return object[first];
+			return each(this, function(object, emit){
+				emit(object[first]);
 			});
 		}
 		var args = arguments;
 		var argc = arguments.length;
-		return this.map(function(object){
+		return each(this, function(object, emit){
 			var selected = [];
 			if (argc === 0) {
 				for(var i in object) if (object.hasOwnProperty(i)) {
@@ -156,7 +180,7 @@ exports.operators = {
 					selected.push(object[propertyName]);
 				}
 			}
-			return selected;
+			emit(selected);
 		});
 	},
 	limit: function(limit, start, maxCount){
@@ -187,7 +211,7 @@ exports.operators = {
 				}
 			}
 		});
-		needCleaning.forEach(function(object){
+		each(needCleaning, function(object){
 			delete object.__found__;
 		});
 		return newResults;
@@ -197,7 +221,7 @@ exports.operators = {
 		var newResults = [];
 		function recurse(value){
 			if(value instanceof Array){
-				value.forEach(recurse);
+				each(value, recurse);
 			}else{
 				newResults.push(value);
 				if(property){
@@ -230,7 +254,7 @@ exports.operators = {
 		}
 		var distinctObjects = {};
 		var dl = distinctives.length;
-		this.forEach(function(object){
+		each(this, function(object){
 			var key = "";
 			for(var i = 0; i < dl;i++){
 				key += '/' + object[distinctives[i]];
@@ -309,19 +333,24 @@ function filter(condition, not){
 };
 function reducer(func){
 	return function(property){
+		var result = this[0];
 		if(property){
-			return this.map(function(object){
-				return object[property];
-			}).reduce(func);
+			result = result && result[property];
+			for(var i = 1, l = this.length; i < l; i++) {
+				result = func(result, this[i][property]);
+			}
 		}else{
-			return this.reduce(func);
+			for(var i = 1, l = this.length; i < l; i++) {
+				result = func(result, this[i]);
+			}
 		}
+		return resul;t
 	}
 }
 exports.evaluateProperty = evaluateProperty;
 function evaluateProperty(object, property){
 	if(property instanceof Array){
-		property.forEach(function(part){
+		each(property, function(part){
 			object = object[decodeURIComponent(part)];
 		});
 		return object;
@@ -366,7 +395,9 @@ function query(query, options, target){
 	function queryToJS(value){
 		if(value && typeof value === "object"){
 			if(value instanceof Array){
-				return '[' + value.map(queryToJS) + ']';
+				return '[' + each(value, function(value, emit){
+					emit(queryToJS(value));
+				}) + ']';
 			}else{
 				var jsOperator = exports.jsOperatorMap[value.name];
 				if(jsOperator){
@@ -399,7 +430,9 @@ function query(query, options, target){
 						return value.valueOf();
 					}
 					return "(function(){return op('" + value.name + "').call(this" +
-						(value && value.args && value.args.length > 0 ? (", " + value.args.map(queryToJS).join(",")) : "") +
+						(value && value.args && value.args.length > 0 ? (", " + each(value.args, function(value, emit){
+								emit(queryToJS(value));
+							}).join(",")) : "") +
 						")})";
 				}
 			}
@@ -407,7 +440,7 @@ function query(query, options, target){
 			return typeof value === "string" ? stringify(value) : value;
 		}
 	}
-	var evaluator = eval("(function(target){return " + queryToJS(query) + ".call(target);})");
+	var evaluator = eval("(1&&function(target){return " + queryToJS(query) + ".call(target);})");
 	return target ? evaluator(target) : evaluator;
 }
 function throwMaxIterations(){
