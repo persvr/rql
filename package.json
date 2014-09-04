@@ -40,7 +40,7 @@
     "promised-io": ">=0.3.0"
   },
   "devDependencies": {
-    "patr": ">0.2.6"
+    "patr": "~0.2.6"
   },
   "icon": "http://packages.dojofoundation.org/images/persvr.png"
 }

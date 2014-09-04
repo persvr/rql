@@ -176,7 +176,12 @@ function stringToValue(string, parameters){
 		return param_index >= 0 && parameters ? parameters[param_index] : undefined;
 	}
 	if(string.indexOf(":") > -1){
-		var parts = string.split(":",2);
+		var parts = string.split(":");
+
+        // allow colons in value
+        var remaining = parts.splice(1);
+        parts.push(remaining.join(':'));
+
 		converter = exports.converters[parts[0]];
 		if(!converter){
 			throw new URIError("Unknown converter " + parts[0]);
@@ -202,10 +207,10 @@ exports.converters = {
 		}
 		var number = +string;
 		if(isNaN(number) || number.toString() !== string){
-/*			var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(date);
-			if (isoDate) {
-				return new Date(Date.UTC(+isoDate[1], +isoDate[2] - 1, +isoDate[3], +isoDate[4], +isoDate[5], +isoDate[6]));
-			}*/
+          /*var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?Z$/.exec(x);
+          if (isoDate) {
+            date = new Date(Date.UTC(+isoDate[1], +isoDate[2] - 1, +isoDate[3], +isoDate[4], +isoDate[5], +isoDate[6], +isoDate[7] || 0));
+          }*/
 			string = decodeURIComponent(string);
 			if(exports.jsonQueryCompatible){
 				if(string.charAt(0) == "'" && string.charAt(string.length-1) == "'"){
@@ -238,10 +243,10 @@ exports.converters = {
 		return exports.converters.date(date);
 	},
 	date: function(x){
-		var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(x);
-		if (isoDate) {
-			date = new Date(Date.UTC(+isoDate[1], +isoDate[2] - 1, +isoDate[3], +isoDate[4], +isoDate[5], +isoDate[6]));
-		}else{
+		var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?Z$/.exec(x);
+        if (isoDate) {
+          date = new Date(Date.UTC(+isoDate[1], +isoDate[2] - 1, +isoDate[3], +isoDate[4], +isoDate[5], +isoDate[6], +isoDate[7] || 0));
+        }else{
 			date = new Date(x);
 		}
 		if (isNaN(date.getTime())){
