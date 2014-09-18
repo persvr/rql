@@ -178,11 +178,14 @@ aggregate(departmentId,sum(sales))
      <section title="in">
       <t>in(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is in the provided array</t>
      </section>
-     <section title="any">
-      <t>any(&lt;property>,&lt;value | query>) - Filters for objects where the specified property's value is an array and the array contains any value that equals the provided value or satisfies the provided query.</t>
+     <section title="out">
+      <t>out(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is not in the provided array</t>
      </section>
-     <section title="all">
-      <t>all(&lt;property>,&lt;value | query>) - Filters for objects where the specified property's value is an array and the array contains values that all equal the provided value or satisfy the provided query.</t>
+     <section title="contains">
+      <t>contains(&lt;property>,&lt;value | query>) - Filters for objects where the specified property's value is an array and the array contains any value that equals the provided value or satisfies the provided query.</t>
+     </section>
+     <section title="excludes">
+      <t>contains(&lt;property>,&lt;value | query>) - Filters for objects where the specified property's value is an array and the array does not contains any value that equals the provided value or satisfies the provided query.</t>
      </section>
      <section title="limit">
       <t>limit(&tl;count>,&lt;start>) - Returns a limited range of records from the result set. The first parameter indicates the number of records to return, and the optional second parameter indicates the starting offset.</t>
