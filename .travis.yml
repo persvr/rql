@@ -10,4 +10,4 @@ env:
 install:
   - travis_retry npm install
 
-script: npm run test.sauce
+script: npm test && npm run test.sauce
