@@ -2,7 +2,9 @@
   "name": "rql",
   "version": "0.3.2",
   "author": "Kris Zyp",
-  "contributors": ["Vladimir Dronnikov <dronnikov@gmail.com>"],
+  "contributors": [
+    "Vladimir Dronnikov <dronnikov@gmail.com>"
+  ],
   "keywords": [
     "resource",
     "query",
@@ -10,27 +12,27 @@
   ],
   "description": "Query language for the web, NoSQL",
   "licenses": [
-     {
-         "type": "AFLv2.1",
-         "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L43"
-     },
-     {
-         "type": "BSD",
-         "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L13"
-     }
+    {
+      "type": "AFLv2.1",
+      "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L43"
+    },
+    {
+      "type": "BSD",
+      "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L13"
+    }
   ],
   "directories": {
     "lib": "."
   },
   "repository": {
-    "type":"git",
-    "url":"http://github.com/kriszyp/rql"
+    "type": "git",
+    "url": "http://github.com/kriszyp/rql"
   },
   "maintainers": [
-  	{
-  		"name": "Kris Zyp",
-  		"email": "kriszyp@gmail.com"
-  	}
+    {
+      "name": "Kris Zyp",
+      "email": "kriszyp@gmail.com"
+    }
   ],
   "mappings": {
     "patr": "http://github.com/kriszyp/patr/zipball/v0.2.1",
@@ -40,7 +42,12 @@
     "promised-io": ">=0.3.0"
   },
   "devDependencies": {
-    "patr": ">0.2.6"
+    "intern-geezer": "^2.1.1"
+  },
+  "scripts": {
+    "test": "intern-client config=test/intern",
+    "test.sauce": "intern-runner config=test/intern",
+    "test.proxy": "intern-runner config=test/intern --proxyOnly"
   },
   "icon": "http://packages.dojofoundation.org/images/persvr.png",
   "dojoBuild": "package.js"

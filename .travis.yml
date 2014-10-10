@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - 0.10
+
+env:
+  global:
+    - secure: ewm9Nj51hYx1CQh7h1wWrfrZhBL04jVmDZmwAs6cMWynDkWiAj/haFBmgrC+YonQUTn5q5VyEgtBmp3wRecvKf++/goRl0B2WR+riARl3BDFHItwNMHFR57rbUSar4VP1XkcO2TjgokEepEo/dm0n9UvKJqOs+86F6XoNO+6d0U=
+    - secure: h4LjB9ix+aZUx9ajQkc7ZOFoItpPeo4jM5DS5cByAcfKNB+jwqQk6L9UziJJIrGQCkh6sGhwfdRkxjhMMSJewHiN2zm9DZDG+aEBjJTdGbd+0V4IAN39fG4+DG97VMoWPyCxdb9P/IPYXK64V2a4LVXkeu/MTu26U8Q80hGMd38=
+
+install:
+  - travis_retry npm install
+
+script: npm run test.sauce

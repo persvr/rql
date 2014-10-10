@@ -31,7 +31,7 @@ parser.Query = function(seed, params){
 };
 exports.Query = parser.Query;
 //TODO:THE RIGHT WAY IS:exports.knownOperators = Object.keys(jsarray.operators || {}).concat(Object.keys(jsarray.jsOperatorMap || {}));
-exports.knownOperators = ["sort", "in", "out", "or", "and", "select", "contains", "excludes", "values", "limit", "distinct", "recurse", "aggregate", "between", "sum", "mean", "max", "min", "count", "first", "one", "eq", "ne", "le", "ge", "lt", "gt"];
+exports.knownOperators = ["sort", "match", "in", "out", "or", "and", "select", "contains", "excludes", "values", "limit", "distinct", "recurse", "aggregate", "between", "sum", "mean", "max", "min", "count", "first", "one", "eq", "ne", "le", "ge", "lt", "gt"];
 exports.knownScalarOperators = ["mean", "sum", "min", "max", "count", "first", "one"];
 exports.arrayMethods = ["forEach", "reduce", "map", "filter", "indexOf", "some", "every"];
 
@@ -140,7 +140,7 @@ exports.updateQueryMethods = function(){
 
 };
 
-//exports.updateQueryMethods();
+exports.updateQueryMethods();
 
 /* recursively iterate over query terms calling 'fn' for each term */
 Query.prototype.walk = function(fn, options){
