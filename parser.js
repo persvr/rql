@@ -2,8 +2,8 @@
  * This module provides RQL parsing. For example:
  * var parsed = require("./parser").parse("b=3&le(c,5)");
  */
-({define:typeof define!="undefined"?define:function(deps, factory){module.exports = factory(exports);}}).
-define(["exports"], function(exports){
+({define:typeof define!="undefined"?define:function(deps, factory){module.exports = factory(exports, require("./util/contains"));}}).
+define(["exports", "./util/contains"], function(exports, contains){
 
 var operatorMap = {
 	"=": "eq",
@@ -15,13 +15,7 @@ var operatorMap = {
 	"!=": "ne"
 };
 
-function contains(array, item){
-	for(var i = 0, l = array.length; i < l; i++){
-		if(array[i] === item){
-			return true;
-		}
-	}
-}
+
 exports.primaryKeyName = 'id';
 exports.lastSeen = ['sort', 'select', 'values', 'limit'];
 exports.jsonQueryCompatible = true;

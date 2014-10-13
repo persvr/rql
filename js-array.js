@@ -4,34 +4,10 @@
  *
  */
 
-({define:typeof define!="undefined"?define:function(deps, factory){module.exports = factory(exports, require("./parser"), require("./query"));}}).
-define(["exports", "./parser", "./query"], function(exports, parser, QUERY){
+({define:typeof define!="undefined"?define:function(deps, factory){module.exports = factory(exports, require("./parser"), require("./query"), require("./util/each"));}}).
+define(["exports", "./parser", "./query", "./util/each", "./util/contains"], function(exports, parser, QUERY, each, contains){
 //({define:typeof define!="undefined"?define:function(deps, factory){module.exports = factory(exports, require("./parser"));}}).
 //define(["exports", "./parser"], function(exports, parser){
-
-function each(array, callback){
-	var emit, result;
-	if (callback.length > 1) {
-		// can take a second param, emit
-		result = [];
-		emit = function(value){
-			result.push(value);
-		}
-	}
-	for(var i = 0, l = array.length; i < l; i++){
-		if(callback(array[i], emit)){
-			return result || true;
-		}
-	}
-	return result;
-}
-function contains(array, item){
-	for(var i = 0, l = array.length; i < l; i++){
-		if(array[i] === item){
-			return true;
-		}
-	}
-}
 
 var parseQuery = parser.parseQuery;
 var stringify = typeof JSON !== "undefined" && JSON.stringify || function(str){
