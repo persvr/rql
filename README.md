@@ -1,6 +1,8 @@
+[![Build Status](https://travis-ci.org/persvr/rql.svg?branch=master)](https://travis-ci.org/persvr/rql)
+
 Resource Query Language (RQL) is a query language designed for use in URIs with object
 style data structures. This project includes the RQL specification and
-provides a JavaScript implementation of query 
+provides a JavaScript implementation of query
 parsing and query execution implementation for JavaScript arrays. The JavaScript library
 supports AMD and NodeJS/CommonJS module format so it can be run in the browser or
 in the server. RQL can be thought as basically a set of
@@ -22,16 +24,16 @@ Such that this can be used in URIs like:
 
 # JavaScript Library
 
-Using the JavaScript library we can construct queries 
+Using the JavaScript library we can construct queries
 using chained operator calls in JavaScript. We could execute the query above like this:
 
     var Query = require("rql/query").Query;
-    var fooEq3Query = new Query().eq("foo",3);    
-    
+    var fooEq3Query = new Query().eq("foo",3);
+
 # RQL Rules
 
-The RQL grammar is based around standard URI delimiters. The standard rules for 
-encoding strings with URL encoding (%xx) are observed. RQL also supersets FIQL. 
+The RQL grammar is based around standard URI delimiters. The standard rules for
+encoding strings with URL encoding (%xx) are observed. RQL also supersets FIQL.
 Therefore we can write a query that finds resources with a "price" property below
 10 with a "lt" operator using FIQL syntax:
 
@@ -61,11 +63,11 @@ The | operator can be used to indicate an "or" operation. We can also use parant
 to group expressions. For example:
 
     (foo=3|foo=bar)&price=lt=10
-    
+
 Which is the same as:
 
     and(or(eq(foo,3),eq(foo,bar)),lt(price,10))
-    
+
 Values in queries can be strings (using URL encoding), numbers, booleans, null, undefined,
 and dates (in ISO UTC format without colon encoding). We can also denote arrays
 with paranthesis enclosed, comma separated values. For example to find the objects
@@ -83,7 +85,7 @@ Any property can be nested by using an array of properties. To search by the bar
 the object in the foo property we can do:
 
     (foo,bar)=3
-    
+
 We can also use slashes as shorthand for arrays, so we could equivalently write the nested
 query:
 
@@ -91,7 +93,7 @@ query:
 
 Another common operator is sort. We can use the sort operator to sort by a specified property.
 To sort by foo in ascending order:
-	
+
 	price=lt=10&sort(+foo)
 
 We can also do multiple property sorts. To sort by price in ascending order and rating in descending order:
@@ -102,15 +104,15 @@ The aggregate function can be used for aggregation. To calculate the sum of sale
 each department:
 
     aggregate(departmentId,sum(sales))
-        
+
 Here is a definition of the common operators (individual stores may have support
 for more less operators):
 
-* sort(&lt;+|->&lt;property) - Sorts by the given property in order specified by the prefix (+ for ascending, - for descending)  
+* sort(&lt;+|->&lt;property) - Sorts by the given property in order specified by the prefix (+ for ascending, - for descending)
 * select(&lt;property>,&lt;property>,...) - Trims each object down to the set of properties defined in the arguments
 * values(&lt;property>) - Returns an array of the given property value for each object
 * aggregate(&lt;property|function>,...) - Aggregates the array, grouping by objects that are distinct for the provided properties, and then reduces the remaining other property values using the provided functions
-* distinct() - Returns a result set with duplicates removed 
+* distinct() - Returns a result set with duplicates removed
 * in(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is in the provided array
 * out(&lt;property>,&lt;array-of-values>) - Filters for objects where the specified property's value is not in the provided array
 * contains(&lt;property>,&lt;value | expression>) - Filters for objects where the specified property's value is an array and the array contains any value that equals the provided value or satisfies the provided expression.
@@ -125,10 +127,10 @@ for more less operators):
 * ge(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is greater than or equal to the provided value
 * ne(&lt;property>,&lt;value>) - Filters for objects where the specified property's value is not equal to the provided value
 * rel(&lt;relation name?>,&lt;query>) - Applies the provided query against the linked data of the provided relation name.
-* sum(&lt;property?>) - Finds the sum of every value in the array or if the property argument is provided, returns the sum of the value of property for every object in the array 
-* mean(&lt;property?>) - Finds the mean of every value in the array or if the property argument is provided, returns the mean of the value of property for every object in the array 
-* max(&lt;property?>) - Finds the maximum of every value in the array or if the property argument is provided, returns the maximum of the value of property for every object in the array 
-* min(&lt;property?>) - Finds the minimum of every value in the array or if the property argument is provided, returns the minimum of the value of property for every object in the array 
+* sum(&lt;property?>) - Finds the sum of every value in the array or if the property argument is provided, returns the sum of the value of property for every object in the array
+* mean(&lt;property?>) - Finds the mean of every value in the array or if the property argument is provided, returns the mean of the value of property for every object in the array
+* max(&lt;property?>) - Finds the maximum of every value in the array or if the property argument is provided, returns the maximum of the value of property for every object in the array
+* min(&lt;property?>) - Finds the minimum of every value in the array or if the property argument is provided, returns the minimum of the value of property for every object in the array
 * recurse(&lt;property?>) - Recursively searches, looking in children of the object as objects in arrays in the given property value
 * first() - Returns the first record of the query's result set
 * one() - Returns the first and only record of the query's result set, or produces an error if the query's result set has more or less than one record in it.
@@ -144,13 +146,13 @@ This module allows us to construct queries. With the query object, we could exec
 RQL operators as methods against the query object. For example:
 
     var Query = require("rql/query").Query;
-    var fooBetween3And10Query = new Query().lt("foo",3).gt("foo",10);  
+    var fooBetween3And10Query = new Query().lt("foo",3).gt("foo",10);
 
 ## rql/parser
 
 	var parsedQueryObject = require("rql/parser").parseQuery(rqlString);
 
-If you are writing an implementation of RQL for a database or other storage endpoint, or want to introspect queries, you can use the parsed query data 
+If you are writing an implementation of RQL for a database or other storage endpoint, or want to introspect queries, you can use the parsed query data
 structures. You can parse string queries with parser module's parseQuery function.
 Query objects have a "name" property and an "args" with an array of the arguments.
 For example:
@@ -178,7 +180,7 @@ For example:
 			}
 		]
 	}
-				
+
 Installation
 ========
 
@@ -189,7 +191,7 @@ RQL can be installed using any standard package manager, for example with NPM:
 or CPM:
 
     cpm install rql
- 
+
 or RingoJS:
 
     ringo-admin install persvr/rql
