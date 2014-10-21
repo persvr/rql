@@ -180,12 +180,12 @@ function stringToValue(string, parameters){
 		return param_index >= 0 && parameters ? parameters[param_index] : undefined;
 	}
 	if(string.indexOf(":") > -1){
-		var parts = string.split(":",2);
+		var parts = string.split(":");
 		converter = exports.converters[parts[0]];
 		if(!converter){
 			throw new URIError("Unknown converter " + parts[0]);
 		}
-		string = parts[1];
+		string = parts.splice(1).join(':');
 	}
 	return converter(string);
 };

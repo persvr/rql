@@ -100,6 +100,7 @@ define(function (require) {
 				//FIXME do we need proper ISO date subset parsing?
 				'a(date)': { name: 'and', args: [{ name: 'a', args: [ 'date' ]}]},
 				'a(date:2009)': { name: 'and', args: [{ name: 'a', args: [ new Date('2009') ]}]},
+				'a(date:2009-01-01T10:00:00Z)': { name: 'and', args: [{ name: 'a', args: [ new Date(Date.UTC(2009, 0, 1, 10)) ]}]},
 				//'a(date:b)': { name: 'and', args: [{ name: 'a', args: [ new Date(NaN) ]}]} // XXX?// supposed to throw an error
 			},
 			'boolean coercion': {
