@@ -247,7 +247,8 @@ exports.converters = {
 		return exports.converters.date(date);
 	},
 	date: function(x){
-		var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(x);
+		var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(x),
+			date;
 		if (isoDate) {
 			date = new Date(Date.UTC(+isoDate[1], +isoDate[2] - 1, +isoDate[3], +isoDate[4], +isoDate[5], +isoDate[6]));
 		}else{
@@ -257,7 +258,6 @@ exports.converters = {
 			throw new URIError("Invalid date " + x);
 		}
 		return date;
-
 	},
 	"boolean": function(x){
 		return x === "true";

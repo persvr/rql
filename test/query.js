@@ -4,6 +4,7 @@ define(function (require) {
 		Query = require('../query').Query,
 		parseQuery = require('../parser').parseQuery,
 		JSON = require('intern/dojo/json'),
+		supportsDateString = !isNaN(new Date('2009')),
 		queryPairs = {
 			arrays: {
 				a: { name: 'and', args: [ 'a' ]},
@@ -99,8 +100,8 @@ define(function (require) {
 			'date coercion': {
 				//FIXME do we need proper ISO date subset parsing?
 				'a(date)': { name: 'and', args: [{ name: 'a', args: [ 'date' ]}]},
-				'a(date:2009)': { name: 'and', args: [{ name: 'a', args: [ new Date('2009') ]}]},
-				'a(date:2009-01-01T10:00:00Z)': { name: 'and', args: [{ name: 'a', args: [ new Date(Date.UTC(2009, 0, 1, 10)) ]}]},
+				'a(date:2009)': supportsDateString && { name: 'and', args: [{ name: 'a', args: [ new Date('2009') ]}]},
+				'a(date:2009-01-01T10:00:00Z)': { name: 'and', args: [{ name: 'a', args: [ new Date(Date.UTC(2009, 0, 1, 10)) ]}]}
 				//'a(date:b)': { name: 'and', args: [{ name: 'a', args: [ new Date(NaN) ]}]} // XXX?// supposed to throw an error
 			},
 			'boolean coercion': {
@@ -135,6 +136,11 @@ define(function (require) {
 					// that the keys and pairs objects are correctly bound
 					var f = function (k, p) {
 						return function () {
+							// skip tests which don't have an expected value
+							if (!p[ k ]) {
+								return this.skip();
+							}
+
 							var actual = parseQuery(k),
 								expected = p[ k ];
 
@@ -149,7 +155,6 @@ define(function (require) {
 							if (!hasKeys(expected.cache)) {
 								delete expected.cache;
 							}
-
 
 							// someone decided that matching constructors is necessary for deep equality
 							// see https://github.com/theintern/intern/issues/284
