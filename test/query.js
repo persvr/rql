@@ -80,8 +80,8 @@ define(function (require) {
 			},
 			'complex grouping': {
 				'a&(b|c)': { name: 'and', args: [ 'a', { name: 'or', args: [ 'b', 'c' ]}]},
-				'a|(b&c)': { name: 'and', args: [{ name: 'or', args: [ 'a', { name: 'and', args: [ 'b', 'c' ]}]}]},
-				'a(b(c<d,e(f=g)))': {}
+				'(a|(b&c))': { name: 'and', args: [{ name: 'or', args: [ 'a', { name: 'and', args: [ 'b', 'c' ]}]}]},
+				'a(b(c<d,e(f=g)))': { 'name': 'and', 'args': [{ 'name': 'a', 'args': [{ 'name': 'b', 'args': [{ 'name': 'lt', 'args': ['c', 'd']}, {'name':'e', 'args': [{ 'name': 'eq', 'args': [ 'f', 'g' ]}]}]}]}]}
 			},
 			'complex comparisons': {
 
@@ -130,29 +130,34 @@ define(function (require) {
 				tests[ group ] = test = {};
 				pairs = queryPairs [ group ];
 				for (key in pairs) {
-					test[ key ] = function () {
-						var actual = parseQuery(key),
-							expected = pairs[ key ];
+					// Wrap the test function in another function call so
+					// that the keys and pairs objects are correctly bound
+					var f = function (k, p) {
+						return function () {
+							var actual = parseQuery(k),
+								expected = p[ k ];
 
-						if (!hasKeys(actual.cache)) {
-							delete actual.cache;
-						}
+							if (!hasKeys(actual.cache)) {
+								delete actual.cache;
+							}
 
-						if (typeof expected === 'string') {
-							expected = parseQuery(expected);
-						}
+							if (typeof expected === 'string') {
+								expected = parseQuery(expected);
+							}
 
-						if (!hasKeys(expected.cache)) {
-							delete expected.cache;
-						}
+							if (!hasKeys(expected.cache)) {
+								delete expected.cache;
+							}
 
 
-						// someone decided that matching constructors is necessary for deep equality
-						// see https://github.com/theintern/intern/issues/284
-						// the deepEqual assertion also fails due to properties like toString so this assertion seems to
-						// be the most suitable.
-						assert.strictEqual(JSON.stringify(actual), JSON.stringify(expected));
+							// someone decided that matching constructors is necessary for deep equality
+							// see https://github.com/theintern/intern/issues/284
+							// the deepEqual assertion also fails due to properties like toString so this assertion seems to
+							// be the most suitable.
+							assert.strictEqual(JSON.stringify(actual), JSON.stringify(expected));
+						};
 					};
+					test[ key ] = f(key, pairs);
 				}
 			}
 
