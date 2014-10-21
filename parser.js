@@ -190,7 +190,7 @@ function stringToValue(string, parameters){
 		if(!converter){
 			throw new URIError("Unknown converter " + parts[0]);
 		}
-		string = parts.splice(1).join(':');
+		string = parts.slice(1).join(':');
 	}
 	return converter(string);
 };
