@@ -80,7 +80,7 @@ define(function (require) {
 			},
 			'complex grouping': {
 				'a&(b|c)': { name: 'and', args: [ 'a', { name: 'or', args: [ 'b', 'c' ]}]},
-				'(a|(b&c))': { name: 'and', args: [{ name: 'or', args: [ 'a', { name: 'and', args: [ 'b', 'c' ]}]}]},
+				'a|(b&c)': { name: 'or', args: [ 'a', { name: 'and', args: [ 'b', 'c' ]}]},
 				'a(b(c<d,e(f=g)))': { 'name': 'and', 'args': [{ 'name': 'a', 'args': [{ 'name': 'b', 'args': [{ 'name': 'lt', 'args': ['c', 'd']}, {'name':'e', 'args': [{ 'name': 'eq', 'args': [ 'f', 'g' ]}]}]}]}]}
 			},
 			'complex comparisons': {

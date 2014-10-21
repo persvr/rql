@@ -26,6 +26,8 @@ function parse(/*String|Object*/query, parameters){
 	var term = new exports.Query();
 	var topTerm = term;
 	topTerm.cache = {}; // room for lastSeen params
+	var topTermName = topTerm.name;
+	topTerm.name = '';
 	if(typeof query === "object"){
 		if(query instanceof exports.Query){
 			return query;
@@ -135,18 +137,21 @@ function parse(/*String|Object*/query, parameters){
 			throw new Error("Can not mix conjunctions within a group, use paranthesis around each set of same conjuctions (& and |)");
 		}
 	}
-    function removeParentProperty(obj) {
-    	if(obj && obj.args){
-	    	delete obj.parent;
-	    	var args = obj.args;
+	function removeParentProperty(obj) {
+		if(obj && obj.args){
+			delete obj.parent;
+			var args = obj.args;
 			for(var i = 0, l = args.length; i < l; i++){
-		    	removeParentProperty(args[i]);
-		    }
-    	}
-        return obj;
-    };
-    removeParentProperty(topTerm);
-    return topTerm;
+				removeParentProperty(args[i]);
+			}
+		}
+		return obj;
+	};
+	removeParentProperty(topTerm);
+	if (!topTerm.name) {
+		topTerm.name = topTermName;
+	}
+	return topTerm;
 };
 
 exports.parse = exports.parseQuery = parse;
