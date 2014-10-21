@@ -54,7 +54,7 @@ function parse(/*String|Object*/query, parameters){
 	}
 	// convert FIQL to normalized call syntax form
 	query = query.replace(/(\([\+\*\$\-:\w%\._,]+\)|[\+\*\$\-:\w%\._]*|)([<>!]?=(?:[\w]*=)?|>|<)(\([\+\*\$\-:\w%\._,]+\)|[\+\*\$\-:\w%\._]*|)/g,
-	                     //<---------       property        -----------><------  operator -----><----------------   value ------------------>
+						// <---------       property        -----------><------  operator -----><----------------   value ------------------>
 			function(t, property, operator, value){
 		if(operator.length < 3){
 			if(!operatorMap[operator]){
@@ -71,7 +71,7 @@ function parse(/*String|Object*/query, parameters){
 		query = query.substring(1);
 	}
 	var leftoverCharacters = query.replace(/(\))|([&\|,])?([\+\*\$\-:\w%\._]*)(\(?)/g,
-	                       //    <-closedParan->|<-delim-- propertyOrValue -----(> |
+							//   <-closedParan->|<-delim-- propertyOrValue -----(> |
 		function(t, closedParan, delim, propertyOrValue, openParan){
 			if(delim){
 				if(delim === "&"){
