@@ -211,10 +211,10 @@ exports.converters = {
 		}
 		var number = +string;
 		if(isNaN(number) || number.toString() !== string){
-/*			var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(date);
-			if (isoDate) {
-				return new Date(Date.UTC(+isoDate[1], +isoDate[2] - 1, +isoDate[3], +isoDate[4], +isoDate[5], +isoDate[6]));
-			}*/
+          /*var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?Z$/.exec(x);
+          if (isoDate) {
+            date = new Date(Date.UTC(+isoDate[1], +isoDate[2] - 1, +isoDate[3], +isoDate[4], +isoDate[5], +isoDate[6], +isoDate[7] || 0));
+          }*/
 			string = decodeURIComponent(string);
 			if(exports.jsonQueryCompatible){
 				if(string.charAt(0) == "'" && string.charAt(string.length-1) == "'"){
@@ -247,10 +247,10 @@ exports.converters = {
 		return exports.converters.date(date);
 	},
 	date: function(x){
-		var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(x),
-			date;
+		var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?Z$/.exec(x);
+		var date;
 		if (isoDate) {
-			date = new Date(Date.UTC(+isoDate[1], +isoDate[2] - 1, +isoDate[3], +isoDate[4], +isoDate[5], +isoDate[6]));
+			date = new Date(Date.UTC(+isoDate[1], +isoDate[2] - 1, +isoDate[3], +isoDate[4], +isoDate[5], +isoDate[6], +isoDate[7] || 0));
 		}else{
 			date = new Date(x);
 		}
