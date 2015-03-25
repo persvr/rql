@@ -320,7 +320,7 @@ function reducer(func){
 				result = func(result, this[i]);
 			}
 		}
-		return resul;t
+		return result;
 	}
 }
 exports.evaluateProperty = evaluateProperty;
